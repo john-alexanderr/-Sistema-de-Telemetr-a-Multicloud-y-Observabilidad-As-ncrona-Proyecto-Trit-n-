@@ -156,12 +156,12 @@ ruff check src tests scripts
 
 | Rol | Integrante | Módulo que defiende |
 |---|---|---|
-| Ingeniero de Robustez de Entradas y Excepciones | Integrante 1 | `exceptions.py`, `sanitizer.py` |
-| Ingeniero de Concurrencia y Telemetría Asíncrona | Integrante 2 | `core.py` |
-| Ingeniero de Formateo Estructurado JSON | Integrante 3 | `AsyncJSONFormatter` |
-| Ingeniero de Almacenamiento y Desacoplamiento No Bloqueante | Integrante 4 | Pipeline `QueueHandler`/`QueueListener` |
-| Coordinador de Integración y Flujo CLI | Integrante 5 | `app_operator.py`, empaquetado |
-| Ingeniero de Simulación de Caos y Pruebas Forenses | Integrante 6 | `scripts/chaos_suite.py`, `scripts/forensic_validator.py` |
+| Ingeniero de Robustez de Entradas y Excepciones | JUAN RASTELLINI | `exceptions.py`, `sanitizer.py` |
+| Ingeniero de Concurrencia y Telemetría Asíncrona | JUAN RASTELLINI| `core.py` |
+| Ingeniero de Formateo Estructurado JSON | RODRIGO TARQUE | `AsyncJSONFormatter` |
+| Ingeniero de Almacenamiento y Desacoplamiento No Bloqueante |JUAN RASTELLINI | Pipeline `QueueHandler`/`QueueListener` |
+| Coordinador de Integración y Flujo CLI | JUAN RASTELLINI | `app_operator.py`, empaquetado |
+| Ingeniero de Simulación de Caos y Pruebas Forenses | JUAN RASTELLINI | `scripts/chaos_suite.py`, `scripts/forensic_validator.py` |
 
 ## Hardening (hard gates)
 
@@ -172,7 +172,7 @@ ruff check src tests scripts
 
 ## Alternativas evaluadas y no implementadas
 
-| Área | Alternativa profesional | Motivo de no implementarla |
+| Área | Alternativa opcionales al tp  | Motivo de no implementarla |
 |---|---|---|
 | Cliente HTTP | `aiohttp` | La consigna exige `httpx` |
 | Reintentos de red | `tenacity` | Fuera del alcance de la consigna |
