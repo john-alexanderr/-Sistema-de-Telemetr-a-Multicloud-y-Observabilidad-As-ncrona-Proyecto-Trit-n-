@@ -1,9 +1,3 @@
-"""Validador forense de telemetria.
-
-Abre el log plano y los backups comprimidos .gz, comprueba que cada linea sea JSON valido,
-verifica los metadatos obligatorios y la presencia del arbol completo de excepciones.
-"""
-
 import gzip
 import json
 import re
@@ -22,7 +16,6 @@ def abrir_log(ruta: Path):
 
 
 def validar_evento(evento: dict, errores: list) -> int:
-    """Valida un evento JSON. Devuelve 1 si contiene un arbol de excepciones."""
     for campo in CAMPOS_OBLIGATORIOS:
         if campo not in evento:
             errores.append(f"falta el campo obligatorio '{campo}'")
@@ -40,7 +33,6 @@ def validar_evento(evento: dict, errores: list) -> int:
 
 
 def validar_arbol(nodo, errores: list, ancestros: tuple[dict, ...] = ()) -> int:
-    """Recorre recursivamente el arbol de excepciones serializado."""
     if nodo is None:
         return 0
     if not isinstance(nodo, dict):

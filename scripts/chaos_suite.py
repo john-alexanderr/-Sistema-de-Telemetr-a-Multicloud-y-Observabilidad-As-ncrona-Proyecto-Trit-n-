@@ -1,9 +1,3 @@
-"""Suite de simulacion de caos: fuerza los colapsos de red contra las APIs reales.
-
-Ejecuta la CLI con combinaciones de parametros que garantizan cada categoria de fallo,
-y al cierre valida el registro forense acumulado en el log.
-"""
-
 import os
 import subprocess
 import sys

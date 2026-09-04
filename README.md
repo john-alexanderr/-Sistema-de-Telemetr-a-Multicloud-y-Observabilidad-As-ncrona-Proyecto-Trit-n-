@@ -174,16 +174,6 @@ ruff check src tests scripts
 - Un único `RotatingFileHandler` detrás de la cola sincronizada: jamás se abre el mismo descriptor en paralelo.
 - `requirements.txt` con aislamiento de dependencias y este README con diagramas Mermaid.
 
-## Alternativas evaluadas y no implementadas
-
-| Área | Alternativa opcionales al tp  | Motivo de no implementarla |
-|---|---|---|
-| Cliente HTTP | `aiohttp` | La consigna exige `httpx` |
-| Reintentos de red | `tenacity` | Fuera del alcance de la consigna |
-| Logging estructurado | `structlog`, `python-json-logger` | Se resolvió con stdlib (`logging`) |
-| Validación de entradas | `pydantic` | La consigna exige callables de `argparse` |
-| CLI | `typer` | La consigna exige `argparse` |
-
 ---
 
 ## 🏰 La historia del Reino Tritón (GitHub Pages)

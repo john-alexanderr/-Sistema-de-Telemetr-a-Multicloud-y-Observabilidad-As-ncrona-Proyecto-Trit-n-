@@ -1,5 +1,3 @@
-"""Verificacion automatica de los hard gates de la consigna sobre el codigo fuente."""
-
 import ast
 from pathlib import Path
 
@@ -11,7 +9,6 @@ def _all_nodes(tree):
 
 
 def test_finally_sin_control_de_flujo():
-    """PEP 765: prohibido return/break/continue dentro de bloques finally."""
     for py_file in SRC.rglob("*.py"):
         tree = ast.parse(py_file.read_text(encoding="utf-8"))
         for node in _all_nodes(tree):
@@ -24,7 +21,6 @@ def test_finally_sin_control_de_flujo():
 
 
 def test_sin_except_baseexception_ni_except_pass():
-    """Prohibido capturar BaseException o silenciar con except: pass."""
     for py_file in SRC.rglob("*.py"):
         tree = ast.parse(py_file.read_text(encoding="utf-8"))
         for node in _all_nodes(tree):

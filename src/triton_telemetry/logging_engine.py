@@ -1,8 +1,3 @@
-"""Pipeline de observabilidad: formateador JSON recursivo y logging no bloqueante por cola.
-
-Alternativas profesionales no implementadas: structlog, python-json-logger.
-"""
-
 import gzip
 import json
 import logging
@@ -15,19 +10,16 @@ from datetime import datetime, timezone
 
 
 def gzip_namer(name: str) -> str:
-    """Agrega la extension .gz al nombre del archivo de backup."""
     return name + ".gz"
 
 
 def gzip_rotator(source: str, dest: str):
-    """Comprime el archivo rotado a .gz y elimina el plano residual."""
     with open(source, "rb") as f_in, gzip.open(dest, "wb", compresslevel=9) as f_out:
         shutil.copyfileobj(f_in, f_out)
     os.remove(source)
 
 
 class AsyncJSONFormatter(logging.Formatter):
-    """Serializa cada LogRecord a JSON, expandiendo ExceptionGroups de forma recursiva."""
     def _serialize_exception(self, exc: BaseException) -> dict:
         exc_data = {
             "class": exc.__class__.__name__,
@@ -35,7 +27,6 @@ class AsyncJSONFormatter(logging.Formatter):
             "notes": list(getattr(exc, "__notes__", []) or []),
         }
 
-        # Un ExceptionGroup puede tener ademas una causa encadenada, se serializan ambas ramas
         if isinstance(exc, ExceptionGroup):
             exc_data["nested_exceptions"] = [
                 self._serialize_exception(nested) for nested in exc.exceptions
@@ -80,14 +71,11 @@ class AsyncJSONFormatter(logging.Formatter):
 
 
 class TritonQueueHandler(logging.handlers.QueueHandler):
-    """Encola el registro sin pre-formatearlo, conservando exc_info para el formateador del listener."""
-
     def prepare(self, record):
         return record
 
 
 def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.Logger:
-    """Configura el logging con dictConfig y desacopla la escritura de disco con QueueHandler/QueueListener."""
     logging_schema = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -135,7 +123,6 @@ def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.L
         file_handler.namer = gzip_namer
         file_handler.rotator = gzip_rotator
 
-    # El logger solo encola eventos; el hilo del listener hace la escritura fisica
     log_queue = queue.Queue(-1)
     queue_handler = TritonQueueHandler(log_queue)
     listener = logging.handlers.QueueListener(
@@ -150,7 +137,6 @@ def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.L
 
 
 def set_console_level(logger: logging.Logger, level: int) -> None:
-    """Configura el nivel del handler de consola que vive dentro del listener."""
     listener = getattr(logger, "listener", None)
     if listener is None:
         return

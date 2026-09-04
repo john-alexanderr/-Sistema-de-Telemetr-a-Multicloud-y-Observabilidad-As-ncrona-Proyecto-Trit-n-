@@ -1,5 +1,3 @@
-"""Paquete distribuible triton_telemetry: API publica del proyecto Triton."""
-
 from .core import scan_all_providers
 from .exceptions import (
     CorruptedPayloadError,

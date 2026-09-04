@@ -1,5 +1,3 @@
-"""Tests de core.py con MockTransport: el caos se simula sin depender de internet."""
-
 import asyncio
 from datetime import timedelta
 

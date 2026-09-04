@@ -1,5 +1,3 @@
-"""Test de punta a punta del pipeline: el arbol de excepciones llega intacto al archivo JSON."""
-
 import json
 
 from triton_telemetry.exceptions import ProviderTimeoutError

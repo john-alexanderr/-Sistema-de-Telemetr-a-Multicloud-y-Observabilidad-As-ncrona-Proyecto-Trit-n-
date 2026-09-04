@@ -1,8 +1,3 @@
-"""Motor de telemetria: consultas HTTP concurrentes con httpx y asyncio.TaskGroup.
-
-Alternativas profesionales no implementadas: aiohttp como cliente, tenacity para reintentos.
-"""
-
 import asyncio
 import json
 import logging
@@ -31,12 +26,10 @@ CHAOS_ENDPOINTS = {
     "CORRUPTED_TRIGGER": "https://httpbin.org/xml",
 }
 
-# Permite a la suite de caos redirigir las consultas hacia un host inexistente (prueba de DNS)
 BASE_URL_OVERRIDE = os.environ.get("TRITON_BASE_URL")
 
 
 async def query_provider_telemetry(provider: str, timeout: float, use_chaos: bool = False) -> dict:
-    """Consulta la telemetria de un proveedor y mapea los errores nativos de httpx a errores semanticos."""
     if BASE_URL_OVERRIDE:
         url = f"{BASE_URL_OVERRIDE}/{provider.lower()}"
     elif use_chaos:
@@ -101,7 +94,6 @@ async def query_provider_telemetry(provider: str, timeout: float, use_chaos: boo
 async def _run_provider_safely(
     provider: str, timeout: float, use_chaos: bool
 ) -> dict | TritonError:
-    """Ejecuta una consulta sin cancelar las consultas hermanas ante un fallo semantico."""
     try:
         return await query_provider_telemetry(provider, timeout, use_chaos)
     except TritonError as error:
@@ -109,7 +101,6 @@ async def _run_provider_safely(
 
 
 async def scan_all_providers(providers: list[str], timeout: float, use_chaos: bool = False) -> list[dict]:
-    """Orquesta consultas paralelas y conserva todos los fallos semanticos concurrentes."""
     tasks = []
 
     async with asyncio.TaskGroup() as tg:

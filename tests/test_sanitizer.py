@@ -1,5 +1,3 @@
-"""Tests de frontera CLI: rangos de timeout y patron de cluster."""
-
 import argparse
 
 import pytest

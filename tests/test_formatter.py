@@ -1,5 +1,3 @@
-"""Tests del formateador JSON: metadatos obligatorios y serializacion recursiva."""
-
 import json
 import logging
 

@@ -1,8 +1,3 @@
-"""Punto de entrada CLI de TritonMonitor.
-
-Alternativa profesional no implementada: typer sobre argparse.
-"""
-
 import argparse
 import asyncio
 import logging
@@ -27,7 +22,6 @@ logger = setup_triton_logging()
 
 
 def build_cli_parser() -> argparse.ArgumentParser:
-    """Configura el analizador CLI con los validadores de frontera y restricciones de dominio."""
     parser = argparse.ArgumentParser(
         prog="TritonMonitor",
         description="Consola de Telemetria Multicloud y Observabilidad Asincrona (PROYECTO TRITON).",
@@ -79,7 +73,6 @@ def build_cli_parser() -> argparse.ArgumentParser:
 
 
 def configure_console_output(args: argparse.Namespace) -> None:
-    """Aplica las prioridades explicitas de salida y luego el modo operativo."""
     if args.quiet:
         level = logging.ERROR
     elif args.verbose or args.mode == "debug":
@@ -123,7 +116,6 @@ async def async_main():
             logger.error(f"Fallo: {exc}")
             for note in getattr(exc, "__notes__", []):
                 logger.error(f"[FORENSE TRITON] {note}")
-        # Volcado forense completo del grupo al log JSON (arbol recursivo con causas y notas)
         logger.debug("Volcado del ExceptionGroup de timeouts", exc_info=group)
 
     except* CorruptedPayloadError as group:
@@ -149,7 +141,6 @@ async def async_main():
         logger.debug("Volcado del ExceptionGroup de errores imprevistos", exc_info=group)
 
     finally:
-        # PEP 765: finally solo libera recursos; nunca usar return/break/continue aqui
         logger.info("=" * 64)
         logger.info("FIN DE CICLO: liberando recursos de la operacion Triton.")
         logger.info("=" * 64)

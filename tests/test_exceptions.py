@@ -1,5 +1,3 @@
-"""Tests de la jerarquia de excepciones semanticas."""
-
 from triton_telemetry.exceptions import (
     CorruptedPayloadError,
     NetworkPeeringError,

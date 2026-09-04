@@ -1,5 +1,3 @@
-"""Test de integracion de la frontera CLI (escenario B de la consigna)."""
-
 import subprocess
 import sys
 from pathlib import Path
