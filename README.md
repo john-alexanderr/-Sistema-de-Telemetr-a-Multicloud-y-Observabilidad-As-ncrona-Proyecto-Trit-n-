@@ -193,12 +193,11 @@ una historia con escenas dibujadas (castillo, caballero Sanitizer, mensajeros co
 de `httpx`, el Tribunal de Errores, la bandeja de informes y el libro que se rota y se comprime) que
 explica cada concepto del TP con un personaje del reino.
 
-**👉 Abrir la historia:** <https://john-alexanderr.github.io/-Sistema-de-Telemetr-a-Multicloud-y-Observabilidad-As-ncrona-Proyecto-Trit-n-/>
+**👉 Abrir la historia:** <https://john-alexanderr.github.io/-Sistema-de-Telemetr-a-Multicloud-y-Observabilidad-As-ncrona-Proyecto-Trit-n-/docs/>
 
 El sitio es estático y vive en la carpeta [`docs/`](docs/) con sus ilustraciones en
-[`docs/assets/`](docs/assets/). El workflow `.github/workflows/pages.yml` lo publica automáticamente
-en cada push a `main`.
+[`docs/assets/`](docs/assets/). GitHub Pages lo publica automáticamente desde la rama `main`
+en cada push, gracias a que el repositorio tiene habilitado *Settings → Pages → Deploy from a branch*
+(rama `main`, carpeta raíz): Jekyll expone el cuento en la subruta `/docs/`.
 
-> **Nota de activación (una sola vez):** en *Settings → Pages → Build and deployment → Source*,
-> elegí **"GitHub Actions"** y hacé un push (o el trigger manual) para que el workflow despliegue el sitio.
-> Si preferís no usar Actions, también podés elegir *"Deploy from a branch"* con la rama `main` y la carpeta `/docs`.
+> **Vista previa local:** `python3 -m http.server -d docs 8000` y abrir <http://localhost:8000>.
