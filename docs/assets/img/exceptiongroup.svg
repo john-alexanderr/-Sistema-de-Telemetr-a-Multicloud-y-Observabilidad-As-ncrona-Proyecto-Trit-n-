@@ -1,31 +1,111 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="La caja ExceptionGroup guarda varios errores juntos">
-  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="ExceptionGroup guarda varios errores y except por asterisco los clasifica">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#f3ecff"/>
 
-  <g transform="translate(150,60)">
-    <path d="M-70 -30 L70 -30 L90 8 L-90 8 Z" fill="#6b4fa1"/>
-    <rect x="-90" y="8" width="180" height="96" fill="#8d6cc7" stroke="#6b4fa1" stroke-width="3"/>
-    <path d="M-70 -30 L70 -30 L90 8 L-90 8 Z" fill="none" stroke="#6b4fa1" stroke-width="3" stroke-linejoin="round"/>
-    <text x="0" y="12" text-anchor="middle" font-family="serif" font-size="16" font-weight="700" fill="#fff">EXCEPTIONGROUP</text>
+  <g transform="translate(450,36)">
+    <rect x="-340" y="-20" width="680" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#ffd25c">📦 CUANDO FALLAN VARIOS A LA VEZ — <tspan fill="#fff">ExceptionGroup + </tspan><tspan fill="#b9a7ff">except*</tspan></text>
+  </g>
 
-    <g transform="translate(-42,34)">
-      <rect x="0" y="0" width="110" height="54" rx="8" fill="#ffffff" stroke="#e25563" stroke-width="3"/>
-      <text x="12" y="24" font-family="sans-serif" font-size="12" font-weight="700" fill="#c33">⏳ Timeout</text>
-      <text x="12" y="42" font-family="monospace" font-size="9" fill="#555">ProviderTimeoutError</text>
+  <!-- problema: dos fallos al mismo tiempo -->
+  <g transform="translate(40,78)">
+    <rect x="0" y="0" width="380" height="86" rx="14" fill="#fff" stroke="#e25563" stroke-width="2.5"/>
+    <text x="18" y="24" font-family="sans-serif" font-size="11" font-weight="800" fill="#8b1a1a">⚠️ El problema: ¿y si fallan DOS a la vez?</text>
+    <g font-family="sans-serif" font-size="10" font-weight="700">
+      <rect x="18" y="34" width="160" height="28" rx="14" fill="#fff7e8" stroke="#d9a017" stroke-width="1.5"/><text x="30" y="52" fill="#6b4c00">Azure ⏳ Timeout</text>
+      <text x="186" y="52" font-size="14" fill="#e25563">+</text>
+      <rect x="206" y="34" width="158" height="28" rx="14" fill="#fdecea" stroke="#e25563" stroke-width="1.5"/><text x="218" y="52" fill="#8b1a1a">GCP 📦 Payload</text>
     </g>
-    <g transform="translate(30,34)">
-      <rect x="0" y="0" width="110" height="54" rx="8" fill="#ffffff" stroke="#2fa8a0" stroke-width="3"/>
-      <text x="12" y="24" font-family="sans-serif" font-size="12" font-weight="700" fill="#1c7a74">📦 Payload</text>
-      <text x="12" y="42" font-family="monospace" font-size="9" fill="#555">CorruptedPayloadError</text>
+    <text x="18" y="74" font-family="sans-serif" font-size="9" fill="#6b7280">Si solo capturamos uno, <tspan font-weight="700" fill="#8b1a1a">¡perdemos el otro!</tspan> Necesitamos guardarlos TODOS.</text>
+  </g>
+
+  <g transform="translate(440,78)">
+    <rect x="0" y="0" width="420" height="86" rx="14" fill="#fdecea" stroke="#e25563" stroke-width="2"/>
+    <text x="16" y="22" font-family="sans-serif" font-size="11" font-weight="800" fill="#8b1a1a">❌ Con un solo try/except perdés información:</text>
+    <rect x="16" y="30" width="388" height="28" rx="8" fill="#fff" stroke="#e25563" stroke-width="1.2"/>
+    <text x="22" y="48" font-family="monospace" font-size="10" fill="#8b1a1a">except Exception as e:  # solo guarda el 1.º</text>
+    <text x="16" y="68" font-family="sans-serif" font-size="9" fill="#6b7280">→ El segundo error desaparece. El forense no puede investigar.</text>
+  </g>
+
+  <!-- caja grande -->
+  <g transform="translate(40,182)">
+    <rect x="0" y="0" width="420" height="240" rx="16" fill="#fff" stroke="#6b4fa1" stroke-width="3"/>
+    <rect x="0" y="0" width="420" height="48" rx="16" fill="#6b4fa1"/><rect x="0" y="32" width="420" height="16" fill="#6b4fa1"/>
+    <text x="210" y="22" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#fff">📦 EXCEPTION GROUP</text>
+    <text x="210" y="38" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="600" fill="#d9ccff">una caja que guarda TODOS los errores juntos</text>
+
+    <!-- tapa abierta -->
+    <path d="M24 58 L396 58 L376 72 L44 72 Z" fill="#8d6cc7" stroke="#6b4fa1" stroke-width="2"/>
+    <!-- interior -->
+    <rect x="24" y="72" width="372" height="152" rx="8" fill="#f3ecff" stroke="#d9ccff" stroke-width="1.5"/>
+
+    <!-- 3 errores dentro -->
+    <g transform="translate(44,84)">
+      <rect x="0" y="0" width="108" height="72" rx="10" fill="#fff" stroke="#d9a017" stroke-width="2"/>
+      <text x="54" y="18" text-anchor="middle" font-size="16">⏳</text>
+      <text x="54" y="34" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#6b4c00">Timeout</text>
+      <text x="54" y="48" text-anchor="middle" font-family="monospace" font-size="7" fill="#6b7280">Azure</text>
+      <text x="54" y="60" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#8a6d1a">2 s</text>
+    </g>
+    <g transform="translate(164,84)">
+      <rect x="0" y="0" width="108" height="72" rx="10" fill="#fff" stroke="#e25563" stroke-width="2"/>
+      <text x="54" y="18" text-anchor="middle" font-size="16">📦</text>
+      <text x="54" y="34" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#8b1a1a">Payload</text>
+      <text x="54" y="48" text-anchor="middle" font-family="monospace" font-size="7" fill="#6b7280">GCP</text>
+      <text x="54" y="60" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#a4262c">XML ❌</text>
+    </g>
+    <g transform="translate(284,84)">
+      <rect x="0" y="0" width="108" height="72" rx="10" fill="#fff" stroke="#2fa8a0" stroke-width="2"/>
+      <text x="54" y="18" text-anchor="middle" font-size="16">🌉</text>
+      <text x="54" y="34" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#16504c">Red</text>
+      <text x="54" y="48" text-anchor="middle" font-family="monospace" font-size="7" fill="#6b7280">AWS</text>
+      <text x="54" y="60" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#1d7a74">DNS</text>
+    </g>
+
+    <g transform="translate(44,170)">
+      <rect x="0" y="0" width="372" height="40" rx="10" fill="#6b4fa1"/>
+      <text x="186" y="16" text-anchor="middle" font-family="monospace" font-size="10" font-weight="800" fill="#fff">ExceptionGroup("Fallos concurrentes", [e1, e2, e3])</text>
+      <text x="186" y="30" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#d9ccff">ningún error se pierde, viajan todos juntos</text>
     </g>
   </g>
 
-  <g transform="translate(358,166)">
-    <circle cx="26" cy="22" r="20" fill="#ffd25c" stroke="#d9a017" stroke-width="3"/>
-    <text x="14" y="28" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#6b4c00">except*</text>
-  </g>
-  <g fill="none" stroke="#6b4fa1" stroke-width="2" stroke-dasharray="5 5">
-    <path d="M330 180 h28"/>
+  <!-- except* clasificador -->
+  <g transform="translate(480,182)">
+    <rect x="0" y="0" width="380" height="240" rx="16" fill="#fff" stroke="#1a2340" stroke-width="3"/>
+    <rect x="0" y="0" width="380" height="48" rx="16" fill="#1a2340"/><rect x="0" y="32" width="380" height="16" fill="#1a2340"/>
+    <text x="190" y="22" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffd25c">🪓 EL CLASIFICADOR — except*</text>
+    <text x="190" y="38" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="600" fill="#8fa0c7">abre la caja y separa por tipo</text>
+
+    <g transform="translate(18,62)" font-family="monospace" font-size="10" font-weight="700">
+      <g>
+        <rect x="0" y="0" width="344" height="36" rx="10" fill="#fff7e8" stroke="#d9a017" stroke-width="1.5"/>
+        <text x="12" y="14" fill="#6b4c00">except* ProviderTimeoutError as eg:</text>
+        <text x="12" y="28" font-family="sans-serif" font-size="9" font-weight="600" fill="#8a6d1a">→ agarra SOLO los ⏳ timeout (Azure)</text>
+      </g>
+      <g transform="translate(0,46)">
+        <rect x="0" y="0" width="344" height="36" rx="10" fill="#fdecea" stroke="#e25563" stroke-width="1.5"/>
+        <text x="12" y="14" fill="#8b1a1a">except* CorruptedPayloadError as eg:</text>
+        <text x="12" y="28" font-family="sans-serif" font-size="9" font-weight="600" fill="#a4262c">→ agarra SOLO los 📦 payload (GCP)</text>
+      </g>
+      <g transform="translate(0,92)">
+        <rect x="0" y="0" width="344" height="36" rx="10" fill="#e6f7f5" stroke="#2fa8a0" stroke-width="1.5"/>
+        <text x="12" y="14" fill="#16504c">except* NetworkPeeringError as eg:</text>
+        <text x="12" y="28" font-family="sans-serif" font-size="9" font-weight="600" fill="#1d7a74">→ agarra SOLO los 🌉 de red</text>
+      </g>
+    </g>
+    <g transform="translate(18,198)">
+      <rect x="0" y="0" width="344" height="28" rx="10" fill="#eef4ff" stroke="#8fa0c7" stroke-width="1.2"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="9" font-weight="700" fill="#24316b">💡 except normal = agarra UNO · except* = agarra TODOS los de ese tipo</text>
+    </g>
   </g>
 
-  <text x="240" y="228" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">📦 Una caja que no deja perder ningún error</text>
+  <!-- flecha entre ellas -->
+  <g transform="translate(460,300)">
+    <rect x="0" y="0" width="20" height="20" rx="10" fill="#6b4fa1"/><text x="10" y="15" text-anchor="middle" font-size="12" fill="#fff">→</text>
+  </g>
+
+  <g transform="translate(40,440)">
+    <rect x="0" y="0" width="820" height="48" rx="12" fill="#6b4fa1"/>
+    <text x="14" y="20" font-family="sans-serif" font-size="11" font-weight="800" fill="#ffd25c">La idea: no ocultar fallos concurrentes —</text>
+    <text x="14" y="36" font-family="sans-serif" font-size="10" fill="#fff">El Reino junta todos los errores en una sola caja y luego los clasifica. Así el forense ve el panorama completo.</text>
+  </g>
 </svg>

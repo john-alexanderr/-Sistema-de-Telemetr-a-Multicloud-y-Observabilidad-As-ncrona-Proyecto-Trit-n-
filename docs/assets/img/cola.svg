@@ -1,44 +1,106 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="La bandeja de informes: QueueHandler, Queue y QueueListener">
-  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="La bandeja de informes: QueueHandler deja el informe y QueueListener lo escribe sin bloquear">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#eef4ff"/>
 
-  <g font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle">
-    <rect x="24" y="86" width="86" height="52" rx="8" fill="#4056a1"/>
-    <text x="67" y="106" fill="#fff" font-size="11">PROGRAMA</text>
-    <text x="67" y="124" fill="#cfd9ff" font-size="9">mensajero</text>
-
-    <rect x="150" y="86" width="80" height="52" rx="8" fill="#6b4fa1"/>
-    <text x="190" y="106" fill="#fff" font-size="11">QueueHandler</text>
-    <text x="190" y="124" fill="#d9ccff" font-size="9">deja el informe</text>
-
-    <rect x="270" y="80" width="80" height="64" rx="8" fill="#ffffff" stroke="#f2b93b" stroke-width="4"/>
-    <text x="310" y="106" fill="#6b4c00" font-size="11">📦 COLA</text>
-    <text x="310" y="124" fill="#8f6f22" font-size="9">queue.Queue</text>
-
-    <rect x="390" y="86" width="74" height="52" rx="8" fill="#2fa8a0"/>
-    <text x="427" y="106" fill="#fff" font-size="11">QueueListener</text>
-    <text x="427" y="124" fill="#d7f5f2" font-size="9">escribe 📖</text>
-
-    <rect x="158" y="176" width="120" height="34" rx="6" fill="#e25563"/>
-    <text x="218" y="196" fill="#fff" font-size="11">📕 ARCHIVO DE LOG</text>
+  <g transform="translate(450,36)">
+    <rect x="-340" y="-20" width="680" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#ffd25c">✉️ LA BANDEJA DE INFORMES — <tspan fill="#fff">QueueHandler → Queue → QueueListener</tspan></text>
   </g>
 
-  <g stroke="#3a4a8f" stroke-width="3" marker-end="url(#fl)" fill="none">
-    <line x1="112" y1="112" x2="146" y2="112"/>
-    <line x1="232" y1="112" x2="266" y2="112"/>
-    <line x1="352" y1="112" x2="386" y2="112"/>
-    <line x1="310" y1="146" x2="310" y2="172"/>
-  </g>
-  <defs>
-    <marker id="fl" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 z" fill="#3a4a8f"/>
-    </marker>
-  </defs>
-
-  <g fill="#ffd25c">
-    <circle cx="427" cy="86" r="9"/>
-    <circle cx="427" cy="102" r="9"/>
-    <circle cx="418" cy="96" r="8"/>
+  <!-- problema sin cola -->
+  <g transform="translate(40,78)">
+    <rect x="0" y="0" width="400" height="88" rx="14" fill="#fff" stroke="#e25563" stroke-width="2.5"/>
+    <text x="16" y="22" font-family="sans-serif" font-size="11" font-weight="800" fill="#8b1a1a">❌ Sin bandeja: el programa espera al archivista</text>
+    <g transform="translate(16,32)" font-family="sans-serif" font-size="10" fill="#6b7280">
+      <rect x="0" y="0" width="92" height="22" rx="11" fill="#1a2340"/><text x="46" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Programa</text>
+      <text x="104" y="15" fill="#8b1a1a">→ espera →</text>
+      <rect x="166" y="0" width="96" height="22" rx="11" fill="#8a5a2b"/><text x="214" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Archivista escribe</text>
+      <text x="274" y="15" fill="#8b1a1a">→ sigue</text>
+    </g>
+    <text x="16" y="74" font-family="sans-serif" font-size="9" fill="#a4262c">⏳ Escribir en disco es lento — <tspan font-weight="700">bloquea al Event Loop</tspan> (el director de tráfico se queda sin dirigir).</text>
   </g>
 
-  <text x="240" y="230" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">✉️ Dejar el informe y seguir trabajando</text>
+  <g transform="translate(470,78)">
+    <rect x="0" y="0" width="390" height="88" rx="14" fill="#e8f5e9" stroke="#1f9d55" stroke-width="2.5"/>
+    <text x="16" y="22" font-family="sans-serif" font-size="11" font-weight="800" fill="#145a32">✅ Con bandeja: deja el informe y sigue</text>
+    <g transform="translate(16,32)" font-family="sans-serif" font-size="10" fill="#2e7d32">
+      <rect x="0" y="0" width="92" height="22" rx="11" fill="#1a2340"/><text x="46" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Programa</text>
+      <text x="104" y="15" fill="#1f9d55">→ deja →</text>
+      <rect x="166" y="0" width="86" height="22" rx="11" fill="#f2b93b"/><text x="209" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#6b4c00">📦 COLA</text>
+      <text x="264" y="15" fill="#1f9d55">→ sigue ✅</text>
+    </g>
+    <text x="16" y="74" font-family="sans-serif" font-size="9" fill="#145a32">⚡ El programa <tspan font-weight="700">no espera</tspan> — otro trabajador (Listener) escribe después.</text>
+  </g>
+
+  <!-- pipeline detallado -->
+  <g transform="translate(40,184)">
+    <rect x="0" y="0" width="820" height="250" rx="16" fill="#fff" stroke="#3a4a8f" stroke-width="2.5"/>
+    <!-- steps -->
+    <g font-family="sans-serif" font-weight="800" text-anchor="middle">
+      <!-- 1 programa -->
+      <g transform="translate(22,18)">
+        <rect x="0" y="0" width="130" height="78" rx="14" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+        <text x="65" y="22" font-size="11" fill="#ffd25c">1️⃣ PROGRAMA</text>
+        <text x="65" y="38" font-size="9" fill="#fff">¡Azure tuvo timeout!</text>
+        <text x="65" y="54" font-size="8" fill="#8fa0c7">no espera, solo avisa</text>
+        <rect x="34" y="62" width="62" height="10" rx="5" fill="#ffd25c" opacity="0.2"/>
+      </g>
+      <!-- arrow -->
+      <g transform="translate(164,48)"><path d="M0 12 L34 12" stroke="#3a4a8f" stroke-width="3" marker-end="url(#f1)"/><text x="17" y="8" font-size="7" fill="#3a4a8f">avisa</text></g>
+      <!-- 2 handler -->
+      <g transform="translate(210,18)">
+        <rect x="0" y="0" width="140" height="78" rx="14" fill="#6b4fa1" stroke="#4a328f" stroke-width="2"/>
+        <text x="70" y="18" font-size="10" fill="#fff">2️⃣ QueueHandler</text>
+        <text x="70" y="32" font-size="8" fill="#d9ccff">recibe el informe</text>
+        <text x="70" y="48" font-size="8" fill="#fff">lo deja en la bandeja</text>
+        <text x="70" y="64" font-family="monospace" font-size="7" fill="#d9ccff">handler.emit(record)</text>
+      </g>
+      <g transform="translate(362,48)"><path d="M0 12 L34 12" stroke="#3a4a8f" stroke-width="3" marker-end="url(#f1)"/><text x="17" y="8" font-size="7" fill="#3a4a8f">deja</text></g>
+      <!-- 3 queue -->
+      <g transform="translate(408,8)">
+        <rect x="0" y="0" width="140" height="96" rx="14" fill="#fff" stroke="#f2b93b" stroke-width="3"/>
+        <text x="70" y="18" font-size="11" fill="#6b4c00">3️⃣ 📦 COLA</text>
+        <text x="70" y="32" font-size="8" fill="#8a6d1a" font-weight="700">queue.Queue</text>
+        <!-- stack of papers -->
+        <g transform="translate(20,40)">
+          <rect x="0" y="12" width="100" height="14" rx="4" fill="#fff7e8" stroke="#d9a017" stroke-width="1.2"/><rect x="0" y="8" width="100" height="14" rx="4" fill="#fff" stroke="#d9a017" stroke-width="1.2"/><rect x="0" y="4" width="100" height="14" rx="4" fill="#fff" stroke="#d9a017" stroke-width="1.2"/><rect x="0" y="0" width="100" height="14" rx="4" fill="#ffe34d" stroke="#d9a017" stroke-width="1.5"/>
+          <text x="50" y="11" text-anchor="middle" font-family="sans-serif" font-size="7" font-weight="700" fill="#6b4c00">informes esperando</text>
+        </g>
+      </g>
+      <g transform="translate(560,48)"><path d="M0 12 L34 12" stroke="#3a4a8f" stroke-width="3" marker-end="url(#f1)"/><text x="17" y="8" font-size="7" fill="#3a4a8f">recoge</text></g>
+      <!-- 4 listener -->
+      <g transform="translate(606,18)">
+        <rect x="0" y="0" width="140" height="78" rx="14" fill="#2fa8a0" stroke="#1d7a74" stroke-width="2"/>
+        <text x="70" y="18" font-size="10" fill="#fff">4️⃣ QueueListener</text>
+        <text x="70" y="32" font-size="8" fill="#d7f5f2">vigila la bandeja</text>
+        <text x="70" y="48" font-size="8" fill="#fff">cuando llega uno, lo escribe</text>
+        <text x="70" y="64" font-family="monospace" font-size="7" fill="#d7f5f2">listener.handle(r)</text>
+      </g>
+      <g transform="translate(656,104)"><path d="M0 0 L0 34" stroke="#3a4a8f" stroke-width="3" marker-end="url(#f1)"/></g>
+      <!-- 5 archivo -->
+      <g transform="translate(596,148)">
+        <rect x="0" y="0" width="160" height="56" rx="14" fill="#e25563" stroke="#a4262c" stroke-width="2"/>
+        <text x="80" y="20" font-size="11" fill="#fff">5️⃣ 📕 ARCHIVO .log</text>
+        <text x="80" y="36" font-size="8" fill="#ffd7db">triton.jsonl</text>
+        <text x="80" y="48" font-family="monospace" font-size="7" fill="#ffd7db">RotatingFileHandler</text>
+      </g>
+    </g>
+
+    <!-- programa sigue trabajando -->
+    <g transform="translate(22,126)">
+      <rect x="0" y="0" width="364" height="52" rx="12" fill="#e8f5e9" stroke="#1f9d55" stroke-width="1.5"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="10" font-weight="800" fill="#145a32">🏃 Mientras tanto el PROGRAMA ya sigue:</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="9" fill="#2e7d32">sigue consultando a GCP, atendiendo al usuario… <tspan font-weight="700">no quedó bloqueado escribiendo</tspan></text>
+      <text x="12" y="48" font-family="sans-serif" font-size="8" fill="#6b7280">→ la escritura en disco la hace el Listener, en otro hilo</text>
+    </g>
+
+    <!-- codigo -->
+    <g transform="translate(22,190)">
+      <rect x="0" y="0" width="560" height="44" rx="10" fill="#1a2340"/>
+      <text x="12" y="16" font-family="monospace" font-size="9" fill="#8fa0c7">queue = <tspan fill="#fff">queue.Queue</tspan>()  ·  handler = <tspan fill="#ffd25c">QueueHandler</tspan>(queue)</text>
+      <text x="12" y="32" font-family="monospace" font-size="9" fill="#8fa0c7">listener = <tspan fill="#7af0c0">QueueListener</tspan>(queue, file_handler)  ·  listener.start()</text>
+    </g>
+  </g>
+
+  <defs><marker id="f1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3a4a8f"/></marker></defs>
+  <text x="450" y="500" text-anchor="middle" font-family="serif" font-size="12" font-style="italic" fill="#24316b">✉️ Dejar el informe en la bandeja y seguir — así el castillo nunca se frena por escribir.</text>
 </svg>

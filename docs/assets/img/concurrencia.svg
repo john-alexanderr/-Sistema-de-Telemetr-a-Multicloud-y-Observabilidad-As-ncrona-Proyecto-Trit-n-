@@ -1,59 +1,112 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="Los tres mensajeros parten al mismo tiempo hacia AWS, Azure y GCP">
-  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Tres mensajeros: método lento secuencial vs método inteligente concurrente">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#eef4ff"/>
 
-  <g transform="translate(30,70)">
-    <g fill="#2f3b76">
-      <polygon points="10,140 10,70 50,70 50,140"/>
-      <polygon points="50,140 50,40 92,40 92,140"/>
-      <polygon points="92,140 92,70 132,70 132,140"/>
-      <rect x="60" y="88" width="30" height="52" rx="3" fill="#5a2a2a"/>
-    </g>
-    <g fill="#f2b93b">
-      <polygon points="50,40 58,30 66,40"/>
-      <polygon points="10,54 26,54 10,66"/>
-      <polygon points="92,54 108,54 92,66"/>
-    </g>
-    <rect x="0" y="180" width="162" height="12" fill="#8a6d1a"/>
+  <g transform="translate(450,36)">
+    <rect x="-340" y="-20" width="680" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#ffd25c">⚡ EL COMANDANTE CORE — <tspan fill="#fff">¿esperar uno por uno o salir los tres a la vez?</tspan> <tspan fill="#8fa0c7" font-weight="600">core.py · TaskGroup</tspan></text>
   </g>
 
-  <g stroke="#3a4a8f" stroke-width="2" stroke-dasharray="6 6" opacity="0.6">
-    <path d="M120 190 Q240 150 350 160" fill="none"/>
-    <path d="M120 198 Q260 200 350 200" fill="none"/>
-    <path d="M120 206 Q240 250 350 240" fill="none"/>
+  <!-- Panel LENTO -->
+  <g transform="translate(22,72)">
+    <rect x="0" y="0" width="428" height="398" rx="16" fill="#fff" stroke="#e25563" stroke-width="3"/>
+    <rect x="0" y="0" width="428" height="52" rx="16" fill="#e25563"/><rect x="0" y="36" width="428" height="16" fill="#e25563"/>
+    <text x="214" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">🐌 MÉTODO LENTO — uno detrás de otro</text>
+    <text x="214" y="42" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#ffd7db">Secuencial: si uno tarda, todos esperan</text>
+
+    <!-- timeline -->
+    <g transform="translate(22,70)" font-family="sans-serif">
+      <!-- AWS -->
+      <g>
+        <rect x="0" y="0" width="86" height="36" rx="10" fill="#ff7a59" stroke="#c44a2e" stroke-width="2"/><text x="43" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">🏃 AWS</text>
+        <rect x="96" y="6" width="120" height="24" rx="12" fill="#ffe0d6" stroke="#ff7a59" stroke-width="1.5"/><text x="156" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#8b3a2a">2 s</text>
+        <text x="228" y="22" font-size="10" fill="#6b7280">⏳ espera</text>
+        <text x="0" y="56" font-size="10" fill="#24316b">sale → <tspan font-weight="700">espera 2 s</tspan> → vuelve ✅</text>
+      </g>
+      <!-- Azure -->
+      <g transform="translate(0,72)">
+        <rect x="0" y="0" width="86" height="36" rx="10" fill="#2fa8a0" stroke="#1d7a74" stroke-width="2"/><text x="43" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">🏃 Azure</text>
+        <rect x="96" y="6" width="120" height="24" rx="12" fill="#c8f0ee" stroke="#2fa8a0" stroke-width="1.5"/><text x="156" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1d5a56">2 s</text>
+        <text x="228" y="22" font-size="10" fill="#6b7280">⏳ espera</text>
+        <text x="0" y="56" font-size="10" fill="#24316b">sale → <tspan font-weight="700">espera 2 s</tspan> → vuelve ✅</text>
+      </g>
+      <!-- GCP -->
+      <g transform="translate(0,144)">
+        <rect x="0" y="0" width="86" height="36" rx="10" fill="#4285f4" stroke="#244e9a" stroke-width="2"/><text x="43" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">🏃 GCP</text>
+        <rect x="96" y="6" width="120" height="24" rx="12" fill="#d6e4ff" stroke="#4285f4" stroke-width="1.5"/><text x="156" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#1a3a7a">2 s</text>
+        <text x="228" y="22" font-size="10" fill="#6b7280">⏳ espera</text>
+        <text x="0" y="56" font-size="10" fill="#24316b">sale → <tspan font-weight="700">espera 2 s</tspan> → vuelve ✅</text>
+      </g>
+      <!-- total -->
+      <g transform="translate(0,230)">
+        <rect x="0" y="0" width="384" height="54" rx="12" fill="#fdecea" stroke="#e25563" stroke-width="2"/>
+        <text x="12" y="20" font-size="12" font-weight="800" fill="#8b1a1a">⏱️ Tiempo total ≈ 6 segundos</text>
+        <text x="12" y="38" font-size="10" fill="#6b7280">2 s + 2 s + 2 s — el castillo queda bloqueado esperando</text>
+        <text x="320" y="22" font-size="22">🐌</text>
+      </g>
+      <!-- codigo -->
+      <g transform="translate(0,298)">
+        <rect x="0" y="0" width="384" height="38" rx="10" fill="#1a2340"/>
+        <text x="12" y="24" font-family="monospace" font-size="11" font-weight="700" fill="#8fa0c7">await aws() → <tspan fill="#ffd25c">await</tspan> azure() → <tspan fill="#ffd25c">await</tspan> gcp()</text>
+      </g>
+    </g>
   </g>
 
-  <g font-family="sans-serif" font-size="11" font-weight="700">
-    <g transform="translate(352,140)">
-      <rect x="0" y="0" width="88" height="40" rx="10" fill="#ff7a59"/>
-      <ellipse cx="24" cy="22" rx="13" ry="9" fill="#fff" opacity="0.9"/>
-      <ellipse cx="56" cy="18" rx="15" ry="8" fill="#fff" opacity="0.9"/>
-      <ellipse cx="42" cy="12" rx="10" ry="6" fill="#fff" opacity="0.9"/>
-      <text x="16" y="58" fill="#fff" text-anchor="middle">AWS</text>
-    </g>
-    <g transform="translate(352,184)">
-      <rect x="0" y="0" width="88" height="40" rx="10" fill="#2fa8a0"/>
-      <ellipse cx="24" cy="22" rx="13" ry="9" fill="#fff" opacity="0.9"/>
-      <ellipse cx="56" cy="18" rx="15" ry="8" fill="#fff" opacity="0.9"/>
-      <ellipse cx="42" cy="12" rx="10" ry="6" fill="#fff" opacity="0.9"/>
-      <text x="18" y="58" fill="#fff" text-anchor="middle">AZURE</text>
-    </g>
-    <g transform="translate(352,228)">
-      <rect x="0" y="0" width="88" height="40" rx="10" fill="#4285f4"/>
-      <ellipse cx="24" cy="22" rx="13" ry="9" fill="#fff" opacity="0.9"/>
-      <ellipse cx="56" cy="18" rx="15" ry="8" fill="#fff" opacity="0.9"/>
-      <ellipse cx="42" cy="12" rx="10" ry="6" fill="#fff" opacity="0.9"/>
-      <text x="16" y="58" fill="#fff" text-anchor="middle">GCP</text>
+  <!-- Panel RAPIDO -->
+  <g transform="translate(470,72)">
+    <rect x="0" y="0" width="408" height="398" rx="16" fill="#fff" stroke="#1f9d55" stroke-width="3"/>
+    <rect x="0" y="0" width="408" height="52" rx="16" fill="#1f9d55"/><rect x="0" y="36" width="408" height="16" fill="#1f9d55"/>
+    <text x="204" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">⚡ MÉTODO INTELIGENTE — los tres a la vez</text>
+    <text x="204" y="42" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#c8f0d0">Concurrente: TaskGroup + async/await</text>
+
+    <g transform="translate(18,68)" font-family="sans-serif">
+      <!-- castillo -->
+      <g transform="translate(150,0)">
+        <rect x="0" y="0" width="74" height="38" rx="8" fill="#2f3b76" stroke="#1a2340" stroke-width="2"/>
+        <text x="37" y="16" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">🏰 CASTILLO</text>
+        <text x="37" y="30" text-anchor="middle" font-size="8" font-weight="600" fill="#c9d4f2">Comandante Core</text>
+        <rect x="18" y="38" width="38" height="10" rx="5" fill="#f2b93b"/><text x="37" y="46" text-anchor="middle" font-size="7" font-weight="800" fill="#1a2340">TaskGroup</text>
+      </g>
+      <!-- flechas a los 3 -->
+      <g fill="none" stroke="#1f9d55" stroke-width="3" marker-end="url(#g2)" stroke-linecap="round">
+        <path d="M170 48 Q100 84 44 96"/><path d="M187 48 L187 96"/><path d="M204 48 Q274 84 330 96"/>
+      </g>
+      <!-- destinos -->
+      <g transform="translate(0,96)">
+        <rect x="0" y="0" width="86" height="36" rx="10" fill="#ff7a59" stroke="#c44a2e" stroke-width="2"/><text x="43" y="24" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">AWS 🌉</text>
+        <rect x="142" y="0" width="86" height="36" rx="10" fill="#2fa8a0" stroke="#1d7a74" stroke-width="2"/><text x="185" y="24" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">Azure</text>
+        <rect x="284" y="0" width="86" height="36" rx="10" fill="#4285f4" stroke="#244e9a" stroke-width="2"/><text x="327" y="24" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">GCP</text>
+      </g>
+      <!-- puente -->
+      <g transform="translate(0,152)">
+        <rect x="6" y="0" width="74" height="24" rx="12" fill="#ffe9a8" stroke="#d9a017" stroke-width="2"/>
+        <text x="43" y="16" text-anchor="middle" font-size="9" font-weight="800" fill="#6b4c00">🌉 puente cerrado</text>
+        <text x="43" y="32" text-anchor="middle" font-size="8" fill="#6b7280">await ⏳</text>
+        <rect x="148" y="4" width="74" height="16" rx="8" fill="#c8f0ee"/><text x="185" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#1d7a74">🏃 sigue</text>
+        <rect x="290" y="4" width="74" height="16" rx="8" fill="#d6e4ff"/><text x="327" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#1a3a7a">🏃 sigue</text>
+      </g>
+      <!-- leyenda await -->
+      <g transform="translate(6,202)">
+        <rect x="0" y="0" width="358" height="52" rx="12" fill="#e8f5e9" stroke="#1f9d55" stroke-width="2"/>
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#145a32">💡 await = «yo espero, el castillo NO se frena»</text>
+        <text x="12" y="34" font-size="9" fill="#2e7d32">AWS espera el puente, mientras Azure y GCP siguen trabajando</text>
+        <text x="12" y="46" font-size="8" fill="#6b7280">async = «esta misión puede esperar sin bloquear»</text>
+      </g>
+      <!-- total -->
+      <g transform="translate(6,268)">
+        <rect x="0" y="0" width="358" height="54" rx="12" fill="#e8f5e9" stroke="#1f9d55" stroke-width="2"/>
+        <text x="12" y="20" font-size="12" font-weight="800" fill="#145a32">⏱️ Tiempo total ≈ 2 segundos</text>
+        <text x="12" y="38" font-size="10" fill="#2e7d32">¡3× más rápido! Todo dentro de un TaskGroup</text>
+        <text x="300" y="28" font-size="22">⚡</text>
+      </g>
+      <!-- codigo -->
+      <g transform="translate(6,334)">
+        <rect x="0" y="0" width="358" height="38" rx="10" fill="#1a2340"/>
+        <text x="12" y="15" font-family="monospace" font-size="10" font-weight="700" fill="#8fa0c7">async with <tspan fill="#ffd25c">TaskGroup</tspan>() as tg:</text>
+        <text x="12" y="30" font-family="monospace" font-size="10" font-weight="700" fill="#8fa0c7">  tg.create_task(aws())  tg.create_task(azure())  tg.create_task(gcp())</text>
+      </g>
     </g>
   </g>
 
-  <g fill="#e25563">
-    <circle cx="188" cy="152" r="11"/>
-    <circle cx="250" cy="200" r="11"/>
-    <circle cx="214" cy="236" r="11"/>
-  </g>
-  <g stroke="#e25563" stroke-width="3" stroke-linecap="round" fill="none">
-    <path d="M205 152 h24 M252 200 h24 M292 200 h24 M214 236 h24"/>
-  </g>
-
-  <text x="240" y="20" text-anchor="middle" font-family="serif" font-size="16" font-style="italic" fill="#24316b">⚡ Los tres mensajeros salen al mismo tiempo</text>
+  <defs><marker id="g2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1f9d55"/></marker></defs>
+  <text x="450" y="498" text-anchor="middle" font-family="serif" font-size="12" font-style="italic" fill="#24316b">Concurrencia = hacer varias cosas a la vez · Asincronía = esperar sin bloquear el castillo.</text>
 </svg>

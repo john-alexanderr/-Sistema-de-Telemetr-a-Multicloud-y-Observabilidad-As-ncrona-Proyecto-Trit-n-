@@ -1,42 +1,122 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="Las palomas mensajeras de httpx.AsyncClient">
-  <rect x="0" y="0" width="480" height="240" fill="#eaf2ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Las palomas mensajeras httpx.AsyncClient llevan y traen solicitudes sin bloquear">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#eaf2ff"/>
 
-  <circle cx="420" cy="36" r="18" fill="#ffd25c" stroke="#e8a800" stroke-width="2"/>
-  <g fill="none" stroke="#8fa0c7" stroke-width="2">
-    <ellipse cx="90" cy="120" rx="44" ry="16"/>
-    <ellipse cx="260" cy="150" rx="52" ry="18"/>
-    <ellipse cx="400" cy="176" rx="46" ry="16"/>
+  <g transform="translate(450,36)">
+    <rect x="-320" y="-20" width="640" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#fff">🕊️ LAS PALOMAS MENSAJERAS — <tspan fill="#ffd25c">httpx.AsyncClient</tspan> <tspan font-weight="600" fill="#8fa0c7">· la comunicación asíncrona</tspan></text>
   </g>
 
-  <g transform="translate(60,60) rotate(-6)">
-    <ellipse cx="26" cy="18" rx="26" ry="15" fill="#f9f9fb"/>
-    <path d="M26 18 L52 2 L44 18 L52 34 Z" fill="#c9d4f2"/>
-    <path d="M26 18 L0 2 L8 18 L0 34 Z" fill="#c9d4f2"/>
-    <circle cx="40" cy="12" r="2" fill="#24316b"/>
-    <path d="M18 34 Q26 48 34 34" fill="#e8a53e"/>
-    <rect x="22" y="40" width="14" height="10" rx="2" fill="#f2b93b" stroke="#c8871b" stroke-width="1"/>
-  </g>
-  <g transform="translate(225,85) rotate(3)">
-    <ellipse cx="26" cy="18" rx="26" ry="15" fill="#f9f9fb"/>
-    <path d="M26 18 L52 2 L44 18 L52 34 Z" fill="#c9d4f2"/>
-    <path d="M26 18 L0 2 L8 18 L0 34 Z" fill="#c9d4f2"/>
-    <circle cx="40" cy="12" r="2" fill="#24316b"/>
-    <path d="M18 34 Q26 48 34 34" fill="#e8a53e"/>
-    <rect x="22" y="40" width="14" height="10" rx="2" fill="#2fa8a0"/>
-  </g>
-  <g transform="translate(370,120) rotate(-4)">
-    <ellipse cx="26" cy="18" rx="26" ry="15" fill="#f9f9fb"/>
-    <path d="M26 18 L52 2 L44 18 L52 34 Z" fill="#c9d4f2"/>
-    <path d="M26 18 L0 2 L8 18 L0 34 Z" fill="#c9d4f2"/>
-    <circle cx="40" cy="12" r="2" fill="#24316b"/>
-    <path d="M18 34 Q26 48 34 34" fill="#e8a53e"/>
-    <rect x="22" y="40" width="14" height="10" rx="2" fill="#4285f4"/>
+  <!-- left: castle sending -->
+  <g transform="translate(40,88)">
+    <rect x="0" y="0" width="240" height="220" rx="16" fill="#fff" stroke="#3a4a8f" stroke-width="2.5"/>
+    <rect x="0" y="0" width="240" height="36" rx="16" fill="#2f3b76"/><rect x="0" y="20" width="240" height="16" fill="#2f3b76"/>
+    <text x="120" y="24" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="800" fill="#fff">🏰 CASTILLO</text>
+    <!-- pigeon house -->
+    <g transform="translate(30,48)">
+      <rect x="0" y="0" width="180" height="110" rx="12" fill="#fff7e8" stroke="#d9a017" stroke-width="2"/>
+      <text x="90" y="18" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="800" fill="#6b4c00">📦 httpx.AsyncClient</text>
+      <text x="90" y="32" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a6d1a">palomar del castillo</text>
+      <!-- 3 pigeons in house -->
+      <g transform="translate(12,42)">
+        <ellipse cx="22" cy="14" rx="22" ry="12" fill="#f9f9fb" stroke="#c9d4f2" stroke-width="1.5"/>
+        <circle cx="34" cy="9" r="2" fill="#1a2340"/><path d="M14 26 Q22 34 30 26" fill="#e8a53e"/>
+        <text x="22" y="52" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#2f3b76">AWS 🟠</text>
+      </g>
+      <g transform="translate(68,42)">
+        <ellipse cx="22" cy="14" rx="22" ry="12" fill="#f9f9fb" stroke="#c9d4f2" stroke-width="1.5"/>
+        <circle cx="34" cy="9" r="2" fill="#1a2340"/><path d="M14 26 Q22 34 30 26" fill="#e8a53e"/>
+        <text x="22" y="52" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#2f3b76">Azure 🟢</text>
+      </g>
+      <g transform="translate(124,42)">
+        <ellipse cx="22" cy="14" rx="22" ry="12" fill="#f9f9fb" stroke="#c9d4f2" stroke-width="1.5"/>
+        <circle cx="34" cy="9" r="2" fill="#1a2340"/><path d="M14 26 Q22 34 30 26" fill="#e8a53e"/>
+        <text x="22" y="52" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#2f3b76">GCP 🔵</text>
+      </g>
+    </g>
+    <!-- envelope -->
+    <g transform="translate(70,176)">
+      <rect x="0" y="0" width="100" height="26" rx="6" fill="#fff" stroke="#3a4a8f" stroke-width="1.5"/>
+      <path d="M0 2 L50 16 L100 2" fill="none" stroke="#3a4a8f" stroke-width="1.5"/>
+      <text x="50" y="19" text-anchor="middle" font-family="monospace" font-size="8" font-weight="700" fill="#3a4a8f">GET /telemetry</text>
+    </g>
   </g>
 
-  <g stroke="#3a4a8f" stroke-width="2" stroke-dasharray="5 5" opacity="0.5">
-    <path d="M80 140 q40 40 76 56" fill="none"/>
-    <path d="M250 176 q50 20 92 24" fill="none"/>
+  <!-- center: flight -->
+  <g transform="translate(310,88)">
+    <rect x="0" y="0" width="300" height="220" rx="16" fill="#fff" stroke="#c9d4f2" stroke-width="2"/>
+    <!-- pigeons flying -->
+    <g transform="translate(20,18)">
+      <path d="M0 48 Q50 12 100 48" fill="none" stroke="#3a4a8f" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+      <g transform="translate(38,12) rotate(-10)">
+        <ellipse cx="0" cy="0" rx="20" ry="11" fill="#f9f9fb" stroke="#3a4a8f" stroke-width="1.5"/>
+        <path d="M-10 0 L-22 -10 L-18 0 L-22 10 Z" fill="#c9d4f2"/><path d="M10 0 L22 -10 L18 0 L22 10 Z" fill="#c9d4f2"/>
+        <circle cx="8" cy="-3" r="2" fill="#1a2340"/><rect x="-8" y="12" width="16" height="8" rx="2" fill="#ff7a59"/>
+      </g>
+      <text x="50" y="72" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#c44a2e">→ AWS</text>
+    </g>
+    <g transform="translate(20,88)">
+      <path d="M0 48 Q50 14 100 48" fill="none" stroke="#3a4a8f" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+      <g transform="translate(44,14)">
+        <ellipse cx="0" cy="0" rx="20" ry="11" fill="#f9f9fb" stroke="#3a4a8f" stroke-width="1.5"/>
+        <path d="M-10 0 L-22 -10 L-18 0 L-22 10 Z" fill="#c9d4f2"/><path d="M10 0 L22 -10 L18 0 L22 10 Z" fill="#c9d4f2"/>
+        <circle cx="8" cy="-3" r="2" fill="#1a2340"/><rect x="-8" y="12" width="16" height="8" rx="2" fill="#2fa8a0"/>
+      </g>
+      <text x="50" y="72" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#1d7a74">→ Azure</text>
+    </g>
+    <g transform="translate(160,88)">
+      <path d="M0 48 Q50 14 100 48" fill="none" stroke="#3a4a8f" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+      <g transform="translate(44,14)">
+        <ellipse cx="0" cy="0" rx="20" ry="11" fill="#f9f9fb" stroke="#3a4a8f" stroke-width="1.5"/>
+        <path d="M-10 0 L-22 -10 L-18 0 L-22 10 Z" fill="#c9d4f2"/><path d="M10 0 L22 -10 L18 0 L22 10 Z" fill="#c9d4f2"/>
+        <circle cx="8" cy="-3" r="2" fill="#1a2340"/><rect x="-8" y="12" width="16" height="8" rx="2" fill="#4285f4"/>
+      </g>
+      <text x="50" y="72" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="700" fill="#244e9a">→ GCP</text>
+    </g>
+    <!-- return with json -->
+    <g transform="translate(20,158)">
+      <rect x="0" y="0" width="260" height="36" rx="10" fill="#e8f5e9" stroke="#1f9d55" stroke-width="1.5"/>
+      <text x="14" y="14" font-family="sans-serif" font-size="9" font-weight="800" fill="#145a32">↩ Vuelve con:</text>
+      <text x="14" y="28" font-family="monospace" font-size="9" fill="#145a32">{"status":"ok","latency":42}</text>
+      <text x="240" y="22" font-size="14">📄</text>
+    </g>
   </g>
 
-  <text x="240" y="224" text-anchor="middle" font-family="serif" font-size="15" font-style="italic" fill="#24316b">🕊️ Palomas muy rápidas que traen y llevan solicitudes</text>
+  <!-- right: clouds -->
+  <g transform="translate(640,88)">
+    <rect x="0" y="0" width="220" height="220" rx="16" fill="#fff" stroke="#c9d4f2" stroke-width="2"/>
+    <g transform="translate(30,18)">
+      <ellipse cx="40" cy="22" rx="36" ry="18" fill="#ff7a59" opacity="0.15"/><rect x="8" y="36" width="64" height="18" rx="9" fill="#ff7a59"/><text x="40" y="49" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#fff">AWS</text>
+    </g>
+    <g transform="translate(118,18)">
+      <ellipse cx="40" cy="22" rx="36" ry="18" fill="#2fa8a0" opacity="0.15"/><rect x="8" y="36" width="64" height="18" rx="9" fill="#2fa8a0"/><text x="40" y="49" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#fff">AZURE</text>
+    </g>
+    <g transform="translate(74,88)">
+      <ellipse cx="40" cy="22" rx="36" ry="18" fill="#4285f4" opacity="0.15"/><rect x="8" y="36" width="64" height="18" rx="9" fill="#4285f4"/><text x="40" y="49" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#fff">GCP</text>
+    </g>
+    <g transform="translate(16,148)">
+      <rect x="0" y="0" width="188" height="56" rx="12" fill="#eef4ff" stroke="#8fa0c7" stroke-width="1.5"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="9" font-weight="800" fill="#3a4a8f">Cada nube responde JSON</text>
+      <text x="12" y="32" font-family="monospace" font-size="8" fill="#3a4a8f">raise_for_status() → verifica 200 OK</text>
+      <text x="12" y="46" font-family="sans-serif" font-size="8" fill="#6b7280">si falla: 4xx/5xx → error</text>
+    </g>
+  </g>
+
+  <!-- bottom explanation -->
+  <g transform="translate(40,330)">
+    <rect x="0" y="0" width="820" height="100" rx="14" fill="#1a2340"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffd25c">💡 Lo importante: la paloma es <tspan fill="#fff">asíncrona</tspan></text>
+    <text x="20" y="44" font-family="sans-serif" font-size="11" fill="#c9d4f2">Mientras una paloma espera la respuesta de Azure ⏳, el castillo puede seguir atendiendo a las otras.</text>
+    <text x="20" y="62" font-family="monospace" font-size="11" font-weight="700" fill="#8fa0c7">async with httpx.AsyncClient() as client:  <tspan fill="#ffd25c">await</tspan> client.get(url)</text>
+    <text x="20" y="82" font-family="sans-serif" font-size="10" fill="#8fa0c7">↑ <tspan font-weight="700" fill="#fff">await</tspan> = "espero esta respuesta, pero no bloqueo al Event Loop"</text>
+    <!-- small diagram -->
+    <g transform="translate(640,10)">
+      <rect x="0" y="0" width="160" height="80" rx="10" fill="#fff" opacity="0.08" stroke="#fff" stroke-width="1"/>
+      <text x="10" y="18" font-family="sans-serif" font-size="8" font-weight="700" fill="#fff">AWS ⏳ espera</text>
+      <text x="10" y="34" font-family="sans-serif" font-size="8" font-weight="700" fill="#7af0c0">Azure ✅ sigue</text>
+      <text x="10" y="50" font-family="sans-serif" font-size="8" font-weight="700" fill="#7af0c0">GCP ✅ sigue</text>
+      <text x="10" y="68" font-family="sans-serif" font-size="7" fill="#8fa0c7">El castillo nunca se detiene</text>
+    </g>
+  </g>
+
+  <text x="450" y="500" text-anchor="middle" font-family="serif" font-size="12" font-style="italic" fill="#24316b">🕊️ Tres palomas, un mismo palomar — todas vuelan a la vez y vuelven con su informe.</text>
 </svg>

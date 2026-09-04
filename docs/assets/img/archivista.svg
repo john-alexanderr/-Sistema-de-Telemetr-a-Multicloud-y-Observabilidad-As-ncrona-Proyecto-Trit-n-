@@ -1,35 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="El Gran Archivista guarda y organiza toda la evidencia">
-  <rect x="0" y="0" width="480" height="240" fill="#f0f6ee"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="El Gran Archivista registra todo en JSON con proceso hilo tarea y timestamp">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#f0f6ee"/>
 
-  <g transform="translate(300,40)">
-    <rect x="0" y="0" width="150" height="170" rx="6" fill="#8a5a2b" stroke="#5f3d1c" stroke-width="3"/>
-    <g fill="#e6cfa5">
-      <rect x="14" y="18" width="122" height="34" rx="4"/>
-      <rect x="14" y="66" width="122" height="34" rx="4"/>
-      <rect x="14" y="114" width="122" height="34" rx="4"/>
+  <g transform="translate(450,36)">
+    <rect x="-320" y="-20" width="640" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#ffd25c">🕵️ EL GRAN ARCHIVISTA — <tspan fill="#fff">logging_engine.py · JSON estructurado</tspan></text>
+  </g>
+
+  <!-- left: archivist character + what he records -->
+  <g transform="translate(40,78)">
+    <rect x="0" y="0" width="340" height="380" rx="16" fill="#fff" stroke="#8a5a2b" stroke-width="2.5"/>
+    <rect x="0" y="0" width="340" height="44" rx="16" fill="#8a5a2b"/><rect x="0" y="28" width="340" height="16" fill="#8a5a2b"/>
+    <text x="170" y="20" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="800" fill="#fff">🕵️ ¿Qué registra el Archivista?</text>
+    <text x="170" y="36" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="600" fill="#e6cfa5">no escribe "hubo un error" — detalla TODO</text>
+
+    <!-- character -->
+    <g transform="translate(18,58)">
+      <circle cx="36" cy="28" r="22" fill="#f0c79f" stroke="#8a5a2b" stroke-width="2"/>
+      <path d="M36 50 v22 l-10 22 h20 l-10 -22 v-4" fill="none" stroke="#3d2b1a" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="18" y="86" width="36" height="28" rx="6" fill="#6b4fa1"/>
+      <rect x="-2" y="58" width="76" height="16" rx="8" fill="#f2b93b" stroke="#8a6d1a" stroke-width="1.5"/><text x="36" y="70" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="800" fill="#6b4c00">AsyncJSONFormatter</text>
+      <text x="36" y="126" text-anchor="middle" font-family="sans-serif" font-size="7" font-weight="700" fill="#6b7280">escribe en JSON</text>
     </g>
-    <g fill="#6f4a24">
-      <rect x="24" y="26" width="70" height="6" rx="3"/>
-      <rect x="24" y="38" width="40" height="6" rx="3"/>
-      <rect x="24" y="74" width="80" height="6" rx="3"/>
-      <rect x="24" y="86" width="52" height="6" rx="3"/>
-      <rect x="24" y="122" width="60" height="6" rx="3"/>
-      <rect x="24" y="134" width="90" height="6" rx="3"/>
+
+    <!-- checklist -->
+    <g transform="translate(112,58)" font-family="sans-serif" font-size="10">
+      <g transform="translate(0,0)"><rect x="0" y="0" width="210" height="26" rx="13" fill="#f0f6ee" stroke="#8fd4a0" stroke-width="1.2"/><text x="10" y="17" fill="#16502a" font-weight="700">✅ cuándo (timestamp)</text><text x="190" y="17" text-anchor="end" fill="#1f9d55" font-size="9">2026-09-04T…Z</text></g>
+      <g transform="translate(0,32)"><rect x="0" y="0" width="210" height="26" rx="13" fill="#f0f6ee" stroke="#8fd4a0" stroke-width="1.2"/><text x="10" y="17" fill="#16502a" font-weight="700">✅ qué tarea / hilo / proceso</text><text x="190" y="17" text-anchor="end" fill="#1f9d55" font-size="7">task / thread / process</text></g>
+      <g transform="translate(0,64)"><rect x="0" y="0" width="210" height="26" rx="13" fill="#f0f6ee" stroke="#8fd4a0" stroke-width="1.2"/><text x="10" y="17" fill="#16502a" font-weight="700">✅ qué proveedor falló</text><text x="190" y="17" text-anchor="end" fill="#1f9d55" font-size="9">azure</text></g>
+      <g transform="translate(0,96)"><rect x="0" y="0" width="210" height="26" rx="13" fill="#f0f6ee" stroke="#8fd4a0" stroke-width="1.2"/><text x="10" y="17" fill="#16502a" font-weight="700">✅ qué error y su causa</text><text x="190" y="17" text-anchor="end" fill="#1f9d55" font-size="7">TritonError ← httpx</text></g>
+      <g transform="translate(0,128)"><rect x="0" y="0" width="210" height="26" rx="13" fill="#f0f6ee" stroke="#8fd4a0" stroke-width="1.2"/><text x="10" y="17" fill="#16502a" font-weight="700">✅ notas amarillas</text><text x="190" y="17" text-anchor="end" fill="#1f9d55" font-size="7">HTTP 504, method</text></g>
+      <g transform="translate(0,160)"><rect x="0" y="0" width="210" height="40" rx="12" fill="#fff7e8" stroke="#f2d28b" stroke-width="1.2"/><text x="10" y="16" fill="#6b4c00" font-weight="800">🔎 Análisis forense</text><text x="10" y="30" fill="#8a6d1a" font-size="9">con todo eso reconstruye</text><text x="10" y="40" fill="#8a6d1a" font-size="9">la escena completa</text></g>
+    </g>
+
+    <!-- bottom quote -->
+    <g transform="translate(14,310)">
+      <rect x="0" y="0" width="312" height="56" rx="12" fill="#1a2340"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="10" font-weight="700" fill="#ffd25c">Rey: "No me escribas 'falló'."</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="9" fill="#c9d4f2">Quiero un formulario oficial (JSON)</text>
+      <text x="12" y="48" font-family="sans-serif" font-size="9" fill="#8fa0c7">que entienda tanto una persona como un programa.</text>
     </g>
   </g>
 
-  <g transform="translate(40,60)">
-    <circle cx="70" cy="40" r="24" fill="#f0c79f" stroke="#c99a6a" stroke-width="3"/>
-    <path d="M70 64 v34 l-12 40 h24 l-12 -40 v-6 M60 58 l12 -8 h-4 M80 58 l-12 -8 h4" fill="none" stroke="#3d4766" stroke-width="3" stroke-linecap="round"/>
-    <rect x="52" y="130" width="36" height="34" rx="4" fill="#6b4fa1"/>
-    <rect x="16" y="96" width="108" height="18" rx="4" fill="#f2b93b" stroke="#c8871b" stroke-width="2"/>
-    <text x="26" y="109" font-family="sans-serif" font-size="10" font-weight="700" fill="#6b4c00">🖋️ Anatomía del registro</text>
-    <g stroke="#8a5a2b" stroke-width="2">
-      <line x1="150" y1="70" x2="196" y2="70"/>
-      <line x1="150" y1="108" x2="196" y2="108"/>
-      <line x1="150" y1="146" x2="196" y2="146"/>
+  <!-- right: JSON example -->
+  <g transform="translate(410,78)">
+    <rect x="0" y="0" width="450" height="380" rx="16" fill="#1a2340" stroke="#24316b" stroke-width="2.5"/>
+    <rect x="0" y="0" width="450" height="44" rx="16" fill="#2a3560"/><rect x="0" y="28" width="450" height="16" fill="#2a3560"/>
+    <text x="18" y="20" font-family="sans-serif" font-size="11" font-weight="800" fill="#ffd25c">📜 Expediente oficial — JSON</text>
+    <text x="18" y="36" font-family="sans-serif" font-size="9" fill="#8fa0c7">clave → valor · lo lee una persona y lo lee un programa</text>
+    <text x="432" y="26" text-anchor="end" font-family="monospace" font-size="9" fill="#8fa0c7">{ }</text>
+
+    <!-- json lines -->
+    <g transform="translate(18,58)" font-family="monospace" font-size="10">
+      <text y="16" fill="#8fa0c7">{</text>
+      <text y="34" fill="#6b8cff">  "timestamp": <tspan fill="#7af0c0">"2026-09-04T12:30:00Z"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="52" fill="#6b8cff">  "level": <tspan fill="#ffd25c">"ERROR"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="70" fill="#6b8cff">  "provider": <tspan fill="#7af0c0">"azure"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="88" fill="#6b8cff">  "error": <tspan fill="#ff8a8a">"ProviderTimeoutError"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="106" fill="#6b8cff">  "cause": <tspan fill="#7af0c0">"httpx.TimeoutException"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="124" fill="#6b8cff">  "notes": [<tspan fill="#7af0c0">"HTTP_Status_Code: 504"</tspan>]<tspan fill="#6b7280">,</tspan></text>
+      <text y="142" fill="#6b8cff">  "taskName": <tspan fill="#7af0c0">"azure-task"</tspan><tspan fill="#6b7280">,</tspan> <tspan fill="#6b8cff">"threadName":</tspan> <tspan fill="#7af0c0">"MainThread"</tspan><tspan fill="#6b7280">,</tspan></text>
+      <text y="160" fill="#6b8cff">  "process": <tspan fill="#ffd25c">1234</tspan></text>
+      <text y="178" fill="#8fa0c7">}</text>
+    </g>
+
+    <!-- form analogy -->
+    <g transform="translate(18,208)">
+      <rect x="0" y="0" width="414" height="64" rx="12" fill="#fff" opacity="0.06" stroke="#fff" stroke-width="1"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="9" font-weight="800" fill="#ffd25c">📝 Como un formulario:</text>
+      <g font-family="sans-serif" font-size="9" fill="#c9d4f2">
+        <text x="12" y="34">NOMBRE → Juan</text><text x="120" y="34">· EDAD → 25</text><text x="220" y="34">· CIUDAD → La Rioja</text>
+        <text x="12" y="50" fill="#8fa0c7">En JSON: <tspan font-family="monospace" fill="#7af0c0">"ciudad": "La Rioja"</tspan> — clave → valor, siempre igual.</text>
+      </g>
+    </g>
+
+    <!-- recursividad hint -->
+    <g transform="translate(18,288)">
+      <rect x="0" y="0" width="414" height="76" rx="12" fill="#6b4fa1" opacity="0.95"/>
+      <text x="12" y="18" font-family="sans-serif" font-size="10" font-weight="800" fill="#fff">🔄 ¿Cajas dentro de cajas?</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="9" fill="#e9d9ff">Si hay ExceptionGroup anidado, el archivista vuelve</text>
+      <text x="12" y="48" font-family="sans-serif" font-size="9" fill="#e9d9ff">a aplicar el mismo procedimiento → <tspan font-weight="800">recursividad</tspan></text>
+      <text x="320" y="46" font-size="20">🪆</text>
+      <text x="12" y="64" font-family="monospace" font-size="8" fill="#d9ccff">def walk(exc):  if isinstance(exc, BaseExceptionGroup): for e in exc.exceptions: walk(e)</text>
     </g>
   </g>
 
-  <text x="240" y="226" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">🕵️ Nada se pierde: todo queda registrado para investigar</text>
+  <text x="450" y="500" text-anchor="middle" font-family="serif" font-size="12" font-style="italic" fill="#3d2b1a">🕵️ Nada se pierde: el archivista deja todo listo para que el forense reconstruya la escena.</text>
 </svg>

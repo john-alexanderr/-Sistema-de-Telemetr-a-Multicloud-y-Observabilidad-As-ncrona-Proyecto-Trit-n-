@@ -1,47 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="El Director de Tráfico (Event Loop) decide quién avanza">
-  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="El Event Loop es el director de tráfico que decide qué tarea avanza">
+  <rect x="0" y="0" width="900" height="520" rx="18" fill="#eef4ff"/>
 
-  <g transform="translate(40,40)">
-    <rect x="0" y="0" width="90" height="170" rx="10" fill="#24316b"/>
-    <g>
-      <circle cx="45" cy="34" r="22" fill="#e25563" stroke="#3d4766" stroke-width="3"/>
-      <circle cx="45" cy="88" r="22" fill="#f2b93b" stroke="#3d4766" stroke-width="3">
-        <animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/>
+  <g transform="translate(450,36)">
+    <rect x="-320" y="-20" width="640" height="40" rx="20" fill="#1a2340"/>
+    <text text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="800" fill="#ffd25c">🚦 EL DIRECTOR DE TRÁFICO — <tspan fill="#fff">Event Loop</tspan> <tspan fill="#8fa0c7" font-weight="600">· quien decide quién avanza</tspan></text>
+  </g>
+
+  <!-- left: director -->
+  <g transform="translate(40,78)">
+    <rect x="0" y="0" width="280" height="360" rx="16" fill="#fff" stroke="#1a2340" stroke-width="2.5"/>
+    <text x="140" y="26" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="800" fill="#1a2340">🚦 DIRECTOR DE TRÁFICO</text>
+    <text x="140" y="42" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6b7280">Event Loop — nunca descansa</text>
+
+    <!-- semaforo -->
+    <g transform="translate(100,54)">
+      <rect x="0" y="0" width="80" height="180" rx="14" fill="#1a2340" stroke="#24316b" stroke-width="3"/>
+      <circle cx="40" cy="32" r="20" fill="#e25563" stroke="#fff" stroke-width="2"/>
+      <circle cx="40" cy="90" r="20" fill="#f2b93b" stroke="#fff" stroke-width="2">
+        <animate attributeName="opacity" values="1;0.45;1" dur="1.2s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="45" cy="142" r="22" fill="#1f9d55" stroke="#3d4766" stroke-width="3"/>
+      <circle cx="40" cy="148" r="20" fill="#1f9d55" stroke="#fff" stroke-width="2"/>
+      <rect x="32" y="180" width="16" height="24" fill="#1a2340"/>
+    </g>
+    <!-- director figura -->
+    <g transform="translate(40,270)">
+      <circle cx="34" cy="18" r="18" fill="#f0c79f" stroke="#1a2340" stroke-width="2"/>
+      <rect x="16" y="38" width="36" height="36" rx="8" fill="#2f3b76" stroke="#1a2340" stroke-width="2"/>
+      <line x1="10" y1="50" x2="-6" y2="38" stroke="#f0c79f" stroke-width="6" stroke-linecap="round"/>
+      <line x1="58" y1="50" x2="74" y2="38" stroke="#f0c79f" stroke-width="6" stroke-linecap="round"/>
+      <text x="100" y="22" font-family="sans-serif" font-size="9" font-weight="700" fill="#24316b">— ¿AWS listo?</text>
+      <text x="100" y="36" font-family="sans-serif" font-size="9" fill="#6b7280">— ¿Azure puede seguir?</text>
+      <text x="100" y="50" font-family="sans-serif" font-size="9" fill="#6b7280">— ¿GCP respondió?</text>
+      <text x="100" y="64" font-family="sans-serif" font-size="9" fill="#6b7280">— ¿Quién sigue?</text>
     </g>
   </g>
 
-  <g transform="translate(190,50)">
-    <rect x="0" y="0" width="150" height="42" rx="10" fill="#4056a1"/>
-    <text x="24" y="27" font-family="sans-serif" font-size="13" font-weight="700" fill="#fff">🚦 Event Loop</text>
-    <g fill="#fff" opacity="0.9">
-      <circle cx="24" cy="62" r="5"/>
-      <circle cx="44" cy="62" r="5"/>
-      <circle cx="84" cy="62" r="5"/>
-      <circle cx="104" cy="62" r="5"/>
+  <!-- center: tasks -->
+  <g transform="translate(350,78)">
+    <rect x="0" y="0" width="510" height="360" rx="16" fill="#fff" stroke="#3a4a8f" stroke-width="2.5"/>
+    <text x="255" y="26" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="800" fill="#24316b">Lo que mira el Director a cada instante</text>
+
+    <!-- 3 lanes -->
+    <g transform="translate(18,40)">
+      <!-- AWS waiting -->
+      <g>
+        <rect x="0" y="0" width="474" height="74" rx="12" fill="#fff7e8" stroke="#d9a017" stroke-width="2"/>
+        <rect x="10" y="10" width="86" height="28" rx="14" fill="#ff7a59"/><text x="53" y="28" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="800" fill="#fff">AWS</text>
+        <rect x="108" y="12" width="120" height="24" rx="12" fill="#fff" stroke="#d9a017" stroke-width="1.5"/><text x="168" y="28" text-anchor="middle" font-family="monospace" font-size="9" font-weight="700" fill="#6b4c00">await ⏳</text>
+        <text x="240" y="28" font-family="sans-serif" font-size="9" fill="#6b7280">esperando el puente (I/O)</text>
+        <g transform="translate(360,10)">
+          <rect x="0" y="0" width="104" height="28" rx="14" fill="#d9a017"/><text x="52" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="800" fill="#fff">🌉 cerrado</text>
+        </g>
+        <text x="10" y="58" font-family="sans-serif" font-size="9" fill="#8a6d1a">→ <tspan font-weight="700">pausada</tspan>, no consume CPU · el Director la saltea por ahora</text>
+      </g>
+      <!-- Azure running -->
+      <g transform="translate(0,86)">
+        <rect x="0" y="0" width="474" height="74" rx="12" fill="#e8f5e9" stroke="#1f9d55" stroke-width="2"/>
+        <rect x="10" y="10" width="86" height="28" rx="14" fill="#2fa8a0"/><text x="53" y="28" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="800" fill="#fff">Azure</text>
+        <rect x="108" y="12" width="120" height="24" rx="12" fill="#1f9d55"/><text x="168" y="28" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="800" fill="#fff">▶️ corriendo</text>
+        <text x="240" y="28" font-family="sans-serif" font-size="9" fill="#145a32">procesando JSON</text>
+        <g transform="translate(360,10)">
+          <rect x="0" y="0" width="104" height="28" rx="14" fill="#1f9d55"/><text x="52" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="800" fill="#fff">✅ avanza</text>
+        </g>
+        <text x="10" y="58" font-family="sans-serif" font-size="9" fill="#145a32">→ <tspan font-weight="700">el Director le da turno</tspan> · hace un poco de trabajo</text>
+      </g>
+      <!-- GCP running -->
+      <g transform="translate(0,172)">
+        <rect x="0" y="0" width="474" height="74" rx="12" fill="#e8f5e9" stroke="#1f9d55" stroke-width="2"/>
+        <rect x="10" y="10" width="86" height="28" rx="14" fill="#4285f4"/><text x="53" y="28" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="800" fill="#fff">GCP</text>
+        <rect x="108" y="12" width="120" height="24" rx="12" fill="#1f9d55"/><text x="168" y="28" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="800" fill="#fff">▶️ corriendo</text>
+        <text x="240" y="28" font-family="sans-serif" font-size="9" fill="#145a32">validando payload</text>
+        <g transform="translate(360,10)">
+          <rect x="0" y="0" width="104" height="28" rx="14" fill="#1f9d55"/><text x="52" y="18" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="800" fill="#fff">✅ avanza</text>
+        </g>
+        <text x="10" y="58" font-family="sans-serif" font-size="9" fill="#145a32">→ <tspan font-weight="700">también avanza</tspan> · ninguna queda bloqueada</text>
+      </g>
+    </g>
+
+    <!-- rule -->
+    <g transform="translate(18,304)">
+      <rect x="0" y="0" width="474" height="40" rx="12" fill="#1a2340"/>
+      <text x="14" y="16" font-family="sans-serif" font-size="10" font-weight="800" fill="#ffd25c">⛔ Regla de oro:</text>
+      <text x="14" y="30" font-family="sans-serif" font-size="9" fill="#c9d4f2">No bloquees al Director con trabajo pesado (escribir disco, sleep largo) — deja eso a la <tspan fill="#fff" font-weight="700">cola + Listener</tspan></text>
     </g>
   </g>
 
-  <g stroke="#3a4a8f" stroke-width="3" stroke-linecap="round" fill="none">
-    <path d="M136 80 q30 -18 64 0"/>
-    <path d="M136 106 q40 34 90 20"/>
-    <path d="M136 128 q20 -40 70 -30"/>
+  <!-- bottom -->
+  <g transform="translate(40,454)">
+    <rect x="0" y="0" width="820" height="48" rx="12" fill="#1a2340"/>
+    <text x="16" y="20" font-family="sans-serif" font-size="11" font-weight="800" fill="#ffd25c">Uno espera, los demás siguen —</text>
+    <text x="16" y="36" font-family="sans-serif" font-size="10" fill="#c9d4f2">por eso <tspan font-family="monospace" fill="#fff">await</tspan> no es "frenar todo", es "yo me pauso, el Director sigue dirigiendo".</text>
+    <text x="750" y="30" font-size="16">🚦</text>
   </g>
-  <g fill="#3a4a8f">
-    <polygon points="197,60 210,62 200,72"/>
-    <polygon points="222,128 236,130 228,140"/>
-    <polygon points="200,100 214,108 204,112"/>
-  </g>
-
-  <g transform="translate(372,50)" font-family="sans-serif" font-size="10.5" font-weight="700">
-    <rect x="0" y="0" width="80" height="34" rx="8" fill="#e25563"/>
-    <text x="16" y="22" fill="#fff">AWS ⏳ espera</text>
-    <rect x="0" y="60" width="90" height="34" rx="8" fill="#1f9d55"/>
-    <text x="16" y="82" fill="#fff">Azure 🏃 sigue</text>
-    <rect x="0" y="120" width="90" height="34" rx="8" fill="#1f9d55"/>
-    <text x="16" y="142" fill="#fff">GCP 🏃 sigue</text>
-  </g>
-
-  <text x="240" y="232" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">Uno espera, pero el castillo nunca se detiene</text>
 </svg>
