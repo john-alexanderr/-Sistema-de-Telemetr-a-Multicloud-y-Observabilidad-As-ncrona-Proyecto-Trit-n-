@@ -18,7 +18,9 @@ def test_timeout_invalido(value):
         parse_timeout(value)
 
 
-@pytest.mark.parametrize("value", ["cluster-us-east-01", "cluster-eu-west-02"])
+@pytest.mark.parametrize(
+    "value", ["cluster-us-east-01", "cluster-eu-west-02", "cluster-us-01", "cluster-sa-east-1"]
+)
 def test_cluster_valido(value):
     assert parse_cluster_id(value) == value
 

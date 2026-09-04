@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="El Gran Archivista guarda y organiza toda la evidencia">
+  <rect x="0" y="0" width="480" height="240" fill="#f0f6ee"/>
+
+  <g transform="translate(300,40)">
+    <rect x="0" y="0" width="150" height="170" rx="6" fill="#8a5a2b" stroke="#5f3d1c" stroke-width="3"/>
+    <g fill="#e6cfa5">
+      <rect x="14" y="18" width="122" height="34" rx="4"/>
+      <rect x="14" y="66" width="122" height="34" rx="4"/>
+      <rect x="14" y="114" width="122" height="34" rx="4"/>
+    </g>
+    <g fill="#6f4a24">
+      <rect x="24" y="26" width="70" height="6" rx="3"/>
+      <rect x="24" y="38" width="40" height="6" rx="3"/>
+      <rect x="24" y="74" width="80" height="6" rx="3"/>
+      <rect x="24" y="86" width="52" height="6" rx="3"/>
+      <rect x="24" y="122" width="60" height="6" rx="3"/>
+      <rect x="24" y="134" width="90" height="6" rx="3"/>
+    </g>
+  </g>
+
+  <g transform="translate(40,60)">
+    <circle cx="70" cy="40" r="24" fill="#f0c79f" stroke="#c99a6a" stroke-width="3"/>
+    <path d="M70 64 v34 l-12 40 h24 l-12 -40 v-6 M60 58 l12 -8 h-4 M80 58 l-12 -8 h4" fill="none" stroke="#3d4766" stroke-width="3" stroke-linecap="round"/>
+    <rect x="52" y="130" width="36" height="34" rx="4" fill="#6b4fa1"/>
+    <rect x="16" y="96" width="108" height="18" rx="4" fill="#f2b93b" stroke="#c8871b" stroke-width="2"/>
+    <text x="26" y="109" font-family="sans-serif" font-size="10" font-weight="700" fill="#6b4c00">🖋️ Anatomía del registro</text>
+    <g stroke="#8a5a2b" stroke-width="2">
+      <line x1="150" y1="70" x2="196" y2="70"/>
+      <line x1="150" y1="108" x2="196" y2="108"/>
+      <line x1="150" y1="146" x2="196" y2="146"/>
+    </g>
+  </g>
+
+  <text x="240" y="226" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">🕵️ Nada se pierde: todo queda registrado para investigar</text>
+</svg>

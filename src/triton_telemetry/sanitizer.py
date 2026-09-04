@@ -23,8 +23,8 @@ def parse_timeout(value: str) -> float:
 
 def parse_cluster_id(value: str) -> str:
     """Valida el ID del cluster contra el patron cluster-<region>-<numero> (ej: cluster-us-east-01)."""
-    pattern = r"^cluster-[a-z]{2,10}-[a-z]+-\d{2}$"
-    if not re.match(pattern, value):
+    pattern = r"^cluster-[a-z]+(?:-[a-z]+)*-\d+$"
+    if not re.fullmatch(pattern, value):
         raise argparse.ArgumentTypeError(
             f"El ID del cluster '{value}' no cumple con el formato requerido "
             f"(ejemplo valido: 'cluster-us-east-01')."

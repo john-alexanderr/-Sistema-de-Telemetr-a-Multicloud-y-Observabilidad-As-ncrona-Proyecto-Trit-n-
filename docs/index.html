@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🏰 La historia del Reino Tritón — Proyecto Tritón</title>
+<meta name="description" content="Una historia ilustrada para entender el Proyecto Tritón: telemetría multicloud, asincronía, ExceptionGroup, logging no bloqueante y mucho más.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="crown">🏰</span> Reino Tritón</div>
+    <nav>
+      <a href="#prologo">Prólogo</a>
+      <a href="#cap1">Ch.1</a>
+      <a href="#cap2">Ch.2</a>
+      <a href="#cap3">Ch.3</a>
+      <a href="#cap4">Ch.4</a>
+      <a href="#cap5">Ch.5</a>
+      <a href="#cap6">Ch.6</a>
+      <a href="#cap7">Ch.7</a>
+      <a href="#cap8">Ch.8</a>
+      <a href="#cap9">Ch.9</a>
+      <a href="#cap10">Ch.10</a>
+      <a href="#cap11">Ch.11</a>
+      <a href="#cap12">Ch.12</a>
+      <a href="#cap13">Ch.13</a>
+      <a href="#final">Final</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <img src="assets/img/hero-castillo.svg" alt="El castillo del Reino Tritón y los tres territorios AWS, Azure y GCP">
+    <h1>🏰 La historia del Reino Tritón</h1>
+    <p class="sub">Una historia para entender todo el proyecto</p>
+    <a class="scroll-btn" href="#prologo">Comenzar la lectura →</a>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- ================= PRÓLOGO ================= -->
+  <section id="prologo" class="chapter" style="--chapter: var(--gold)">
+    <div class="chapter-head">
+      <span class="chapter-num">👑</span>
+      <h2>Un reino, tres territorios y un problema</h2>
+    </div>
+    <p class="tagline">La misión del Reino Tritón comienza.</p>
+
+    <p>Imaginá un enorme reino llamado <b>Reino Tritón</b>.</p>
+    <p>El reino tiene un castillo central y, muy lejos de él, existen tres territorios importantes:</p>
+    <ul>
+      <li>☁️ <b>AWS</b></li>
+      <li>☁️ <b>Azure</b></li>
+      <li>☁️ <b>GCP</b></li>
+    </ul>
+    <p>El Rey necesita saber constantemente qué está ocurriendo en esos territorios.</p>
+    <p>Pero existe un problema.</p>
+    <p>Los territorios están lejos y las comunicaciones no siempre funcionan correctamente. A veces:</p>
+    <ul>
+      <li>AWS tarda demasiado en responder.</li>
+      <li>Azure no responde.</li>
+      <li>GCP devuelve información incorrecta.</li>
+      <li>La red que conecta al castillo con un territorio falla.</li>
+      <li>Incluso pueden ocurrir varios problemas al mismo tiempo.</li>
+    </ul>
+    <p>El Rey entiende que no puede controlar todo esto de manera improvisada.</p>
+    <p>Entonces reúne a sus especialistas y les dice:</p>
+    <blockquote>
+      —Necesito un sistema que reciba mis órdenes, consulte los tres territorios al mismo tiempo,
+      detecte exactamente qué salió mal y deje un registro de todo lo ocurrido.
+    </blockquote>
+    <p>Y así comienza la <b>misión del Reino Tritón</b>.</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 1 ================= -->
+  <section id="cap1" class="chapter" style="--chapter: #6b4fa1">
+    <div class="chapter-head">
+      <span class="chapter-num">1</span>
+      <h2>La Puerta del Castillo</h2>
+    </div>
+    <p class="tagline">Ninguna información incorrecta puede entrar al castillo.</p>
+
+    <figure>
+      <img src="assets/img/sanitizer.svg" alt="El Caballero Sanitizer revisa las órdenes en la puerta del castillo">
+      <figcaption>🛡️ El Caballero Sanitizer: la primera barrera del Reino.</figcaption>
+    </figure>
+
+    <p>Antes de comenzar cualquier misión existe una regla fundamental:</p>
+    <div class="idea"><span class="kicker">Regla del reino</span><br>
+      <b>ninguna información incorrecta puede entrar al castillo.</b>
+    </div>
+
+    <p>Para encargarse de esto, el Rey tiene un guardia especial:</p>
+    <h3>🛡️ El Caballero Sanitizer</h3>
+    <p>Su trabajo es revisar las órdenes que llegan desde el exterior.</p>
+    <p>Este personaje representa:</p>
+    <div class="character-map"><span class="pill">sanitizer.py</span></div>
+
+    <h3>⏱️ La primera orden</h3>
+    <p>Un mensajero llega corriendo.</p>
+    <div class="dialog">—¡Tengo una orden del Rey!</div>
+    <div class="dialog">El Caballero Sanitizer responde: —Entrégamela.</div>
+    <p>El mensajero le da una instrucción:</p>
+    <pre><code>timeout = 2</code></pre>
+    <p>El caballero revisa la regla del reino. El tiempo permitido debe estar entre <b>0.1 y 5 segundos</b>.</p>
+    <p>Entonces responde:</p>
+    <div class="dialog">—2 segundos está permitido. Podés pasar.</div>
+    <div class="verdict ok">✅ La información es válida.</div>
+
+    <h3>🚫 Una orden imposible</h3>
+    <p>Poco después llega otro mensajero.</p>
+    <div class="dialog">—El Rey quiere esperar <b>-10 segundos</b>.</div>
+    <p>El caballero se sorprende. —¿Menos diez segundos? Eso no tiene sentido.</p>
+    <div class="verdict no">❌ Rechazado. La orden nunca llega al corazón del programa.</div>
+
+    <h3>🥔 Una orden todavía peor</h3>
+    <p>Llega otro mensajero.</p>
+    <div class="dialog">—El Rey quiere esperar... <b>PATATA</b>.</div>
+    <p>El caballero mira el documento. —Eso ni siquiera es un número.</p>
+    <div class="verdict no">❌ Rechazado.</div>
+
+    <h3>🧠 ¿Qué estamos aprendiendo?</h3>
+    <ul>
+      <li>El castillo representa nuestro <b>programa</b>.</li>
+      <li>La puerta representa la <b>validación</b>.</li>
+      <li>El Caballero Sanitizer representa <span class="pill">sanitizer.py</span>.</li>
+    </ul>
+    <div class="idea"><span class="kicker">La idea fundamental</span><br>
+      <b>Es mejor detener un dato incorrecto en la puerta que permitir que llegue al interior
+      del sistema y provoque problemas más adelante.</b>
+    </div>
+
+    <h3>🏷️ El nombre del territorio</h3>
+    <p>El caballero también debe revisar los identificadores de los territorios. Por ejemplo:</p>
+    <pre><code>cluster-us-east-01</code></pre>
+    <p>El nombre cumple las reglas.</p>
+    <div class="verdict ok">✅ Puede entrar.</div>
+    <p>Pero llega otro:</p>
+    <pre><code>hola-soy-un-cluster-tal-vez</code></pre>
+    <p>El caballero niega el acceso.</p>
+    <div class="verdict no">❌ No cumple el formato esperado.</div>
+    <p>Para comprobarlo utiliza una regla llamada <b>expresión regular (<code>re</code>)</b>. La regla
+    establece que el identificador debe seguir el patrón <code>cluster-&lt;name&gt;</code>.</p>
+    <p>Podemos imaginar que el caballero tiene una inscripción en una piedra:</p>
+    <blockquote>«Todo identificador autorizado debe comenzar con <code>cluster-</code>.»</blockquote>
+  </section>
+
+  <!-- ================= CAPÍTULO 2 ================= -->
+  <section id="cap2" class="chapter" style="--chapter: var(--teal)">
+    <div class="chapter-head">
+      <span class="chapter-num">2</span>
+      <h2>El Comandante y los Tres Mensajeros</h2>
+    </div>
+    <p class="tagline">Consultar tres territorios a la vez, sin esperar uno detrás de otro.</p>
+
+    <figure>
+      <img src="assets/img/concurrencia.svg" alt="Los tres mensajeros parten al mismo tiempo hacia AWS, Azure y GCP">
+      <figcaption>⚡ Tres mensajeros, una sola expedición.</figcaption>
+    </figure>
+
+    <h3>🎖️ El Comandante Core</h3>
+    <p>Las órdenes ya fueron revisadas. Ahora comienza la verdadera misión. El Rey llama al Comandante Core.</p>
+    <p>Este personaje representa:</p>
+    <div class="character-map"><span class="pill">core.py</span></div>
+    <p>El Rey le da una orden:</p>
+    <blockquote>—Necesito saber cómo están AWS, Azure y GCP.</blockquote>
+    <p>El comandante mira el mapa. Los tres territorios están muy lejos. Entonces piensa:</p>
+    <blockquote>—Necesito enviar tres mensajeros.</blockquote>
+
+    <h3>🐌 El método lento</h3>
+    <p>El comandante podría hacer algo muy sencillo:</p>
+    <div class="dialog">—Mensajero, andá a AWS.</div>
+    <p>El mensajero sale.</p>
+    <p>🏃 → AWS</p>
+    <p>Pero el comandante debe esperar. ⏳ Finalmente vuelve: —AWS respondió.</p>
+    <p>Entonces el comandante dice: —Ahora andá a Azure. 🏃 → Azure</p>
+    <p>Otra vez: ⏳ Cuando vuelve: —Azure respondió. Y recién entonces: —Ahora andá a GCP. 🏃 → GCP / ⏳</p>
+    <p>Esto significa:</p>
+    <pre><code>AWS <span class="tok-o">→</span> esperar <span class="tok-o">→</span> Azure <span class="tok-o">→</span> esperar <span class="tok-o">→</span> GCP</code></pre>
+    <p>El problema es evidente: si un territorio tarda mucho, todo el proceso queda esperando.</p>
+
+    <h3>⚡ El método inteligente</h3>
+    <p>El Comandante Core tiene una idea mejor.</p>
+    <div class="dialog">—¡No quiero que salgan uno detrás del otro!</div>
+    <p>Levanta la mano y ordena:</p>
+    <blockquote>—¡Los tres mensajeros salen al mismo tiempo!</blockquote>
+    <p>Entonces ocurre esto:</p>
+    <pre><code>
+                 🏰 CASTILLO
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+        AWS        AZURE       GCP
+    </code></pre>
+    <p>Los tres comienzan su viaje. Esto es <b>concurrencia</b>.</p>
+
+    <h3>🌉 El puente de AWS</h3>
+    <p>El mensajero de AWS llega a un puente. 🌉 El puente está cerrado. Tiene que esperar. ⏳</p>
+    <p>Pero ahora ocurre algo diferente. El castillo <b>no queda completamente detenido</b>. Mientras AWS espera:</p>
+    <pre><code>
+AWS      <span class="tok-o">→</span> esperando ⏳
+Azure    <span class="tok-o">→</span> trabajando 🏃
+GCP      <span class="tok-o">→</span> trabajando 🏃
+    </code></pre>
+    <p>Cuando el puente de AWS se abre, el mensajero puede continuar.</p>
+    <div class="idea"><span class="kicker">Esta es la idea fundamental de la</span><br>
+      ⚡ <b>Programación asíncrona</b>
+    </div>
+
+    <h3>🧠 ¿Qué significan <code>async</code> y <code>await</code>?</h3>
+    <p>Ahora aparecen dos personajes muy importantes.</p>
+    <h4><code>async</code></h4>
+    <p><code>async</code> le indica al programa: «Esta función puede trabajar de manera asíncrona.» Es como decir:</p>
+    <blockquote>—Esta misión puede tener momentos en los que necesita esperar sin bloquear todo el reino.</blockquote>
+    <h4><code>await</code></h4>
+    <p>Cuando el mensajero encuentra el puente cerrado: —Necesito esperar. Eso es <code>await</code>.</p>
+    <p>Pero <b>esperar no significa detener todo el castillo</b>. Significa:</p>
+    <blockquote>«Esta tarea espera, mientras otras tareas pueden continuar.»</blockquote>
+    <pre><code>
+AWS     <span class="tok-o">→</span> await ⏳
+Azure   <span class="tok-o">→</span> continúa 🏃
+GCP     <span class="tok-o">→</span> continúa 🏃
+    </code></pre>
+
+    <h3>👑 La sala de coordinación: <code>TaskGroup</code></h3>
+    <p>El Rey tiene ahora otro problema: hay tres misiones ejecutándose al mismo tiempo. Necesita mantenerlas organizadas.</p>
+    <p>Entonces construye una sala especial: 👑 <b>TaskGroup</b>. Dentro de ella quedan registradas las tres misiones:</p>
+    <pre><code>
+TASKGROUP
+│
+├── Mensajero AWS
+├── Mensajero Azure
+└── Mensajero GCP
+    </code></pre>
+    <p>El <code>TaskGroup</code> permite tratar estas tareas concurrentes como un grupo estructurado. El Rey ya no tiene
+    tres misiones desorganizadas: tiene <b>una expedición formada por tres tareas</b>.</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 3 ================= -->
+  <section id="cap3" class="chapter" style="--chapter: #5b7fd4">
+    <div class="chapter-head">
+      <span class="chapter-num">3</span>
+      <h2>Las Palomas Mensajeras</h2>
+    </div>
+    <p class="tagline">Así se comunican los mensajeros con los territorios.</p>
+
+    <figure>
+      <img src="assets/img/palomas.svg" alt="Las palomas mensajeras de httpx.AsyncClient">
+      <figcaption>🕊️ Palomas rápidas que no bloquean el castillo.</figcaption>
+    </figure>
+
+    <p>Los mensajeros necesitan comunicarse con AWS, Azure y GCP. Para eso el Reino utiliza:</p>
+    <h3>🕊️ <code>httpx.AsyncClient</code></h3>
+    <p>Podemos imaginar que es un sistema de palomas mensajeras extremadamente rápido.</p>
+    <p>Una paloma:</p>
+    <ol>
+      <li>sale del castillo;</li>
+      <li>lleva una solicitud;</li>
+      <li>espera una respuesta;</li>
+      <li>regresa con la información.</li>
+    </ol>
+    <p>Lo importante es que la comunicación es <b>asíncrona</b>. Mientras una paloma espera una respuesta,
+    otras tareas pueden continuar.</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 4 ================= -->
+  <section id="cap4" class="chapter" style="--chapter: var(--red)">
+    <div class="chapter-head">
+      <span class="chapter-num">4</span>
+      <h2>La Gran Tormenta</h2>
+    </div>
+    <p class="tagline">Cuando la red deja de cooperar: el Tribunal de Errores entra en acción.</p>
+
+    <figure>
+      <img src="assets/img/tormenta.svg" alt="La gran tormenta golpea a los tres territorios">
+      <figcaption>🌩️ Algunos responden, otros tardan y otros devuelven información inválida.</figcaption>
+    </figure>
+
+    <p>Los tres mensajeros ya están viajando. Pero de repente aparece una tormenta. 🌩️🌩️🌩️</p>
+    <p>Y ocurren tres situaciones diferentes.</p>
+
+    <h4>AWS</h4>
+    <p>AWS responde correctamente.</p>
+    <div class="verdict ok">✅ Todo bien.</div>
+
+    <h4>Azure</h4>
+    <p>Azure nunca responde. ⏳ Pasa un segundo. ⏳ Pasan dos segundos. Nada.</p>
+    <div class="verdict no">❌ <b>Timeout</b></div>
+
+    <h4>GCP</h4>
+    <p>GCP responde. El mensajero vuelve al castillo con una carta. El Rey la abre. La carta contiene información inválida.</p>
+    <div class="verdict no">❌ <b>Payload incorrecto</b></div>
+
+    <p>Ahora el Reino necesita saber exactamente qué ocurrió. No sirve decir: «Algo salió mal.»</p>
+    <p>El Rey necesita información precisa. Por eso crea:</p>
+
+    <h3>⚖️ El Tribunal de Errores</h3>
+    <p>Este tribunal representa:</p>
+    <div class="character-map"><span class="pill">exceptions.py</span></div>
+
+    <figure>
+      <img src="assets/img/tribunal.svg" alt="El Tribunal de Errores clasifica cada problema">
+      <figcaption>⚖️ Un nombre preciso para cada tipo de fallo.</figcaption>
+    </figure>
+
+    <h3>👑 El Rey de los Errores: <code>TritonError</code></h3>
+    <p>El tribunal tiene un jefe: 👑 <code>TritonError</code>. Todos los errores propios del Reino pertenecen a su familia.</p>
+    <pre><code>
+             TritonError
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+     Timeout    Payload    Network
+    </code></pre>
+    <p>Técnicamente, <code>TritonError</code> deriva de <code>Exception</code>. La ventaja es que el Reino puede tener
+    errores propios que describen problemas específicos del sistema.</p>
+
+    <h3>⏳ El caso de Azure</h3>
+    <p>El mensajero de Azure finalmente informa: —Azure no respondió dentro del tiempo permitido.</p>
+    <p>El tribunal registra: <b><code>ProviderTimeoutError</code></b></p>
+    <p>Este error significa: <b>un proveedor tardó demasiado en responder</b>.</p>
+
+    <h3>📦 El caso de GCP</h3>
+    <p>El mensajero de GCP trae una respuesta. Pero algo está mal: la información no tiene el formato esperado.</p>
+    <p>El tribunal registra: <b><code>CorruptedPayloadError</code></b></p>
+    <p>Es decir: <b>el mensaje recibido no es válido para lo que el sistema esperaba</b>.</p>
+
+    <h3>🌉 El caso de la red</h3>
+    <p>Otro mensajero intenta llegar a un territorio. Pero encuentra un problema: 🌉 el puente está destruido.
+    No puede establecer correctamente el camino de comunicación.</p>
+    <p>El tribunal registra: <b><code>NetworkPeeringError</code></b></p>
+    <p>Esto representa un problema de conectividad o comunicación de red entre el sistema y el proveedor.</p>
+
+    <h3>🧠 ¿Por qué no utilizar un solo error?</h3>
+    <p>Imaginemos que un médico recibe tres pacientes:</p>
+    <ul>
+      <li>Paciente 1: 🤒 Fiebre.</li>
+      <li>Paciente 2: 🦴 Pierna rota.</li>
+      <li>Paciente 3: 😵 Desmayado.</li>
+    </ul>
+    <p>El médico no dice simplemente: «Los tres están enfermos.» Necesita saber <b>qué problema tiene cada uno</b>.</p>
+    <p>Con los errores ocurre exactamente lo mismo.</p>
+    <pre><code>
+"Algo salió mal"            <span class="tok-o">→</span> ❌
+"Hubo un timeout"           <span class="tok-o">→</span> ✅
+"Azure no respondió 2 s"    <span class="tok-o">→</span> 🔥
+    </code></pre>
+    <div class="idea"><span class="kicker">Conclusión</span><br>
+      Cuanto más precisa sea la información, más fácil será investigar y solucionar el problema.
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 5 ================= -->
+  <section id="cap5" class="chapter" style="--chapter: var(--purple)">
+    <div class="chapter-head">
+      <span class="chapter-num">5</span>
+      <h2>Cuando Ocurren Varios Errores</h2>
+    </div>
+    <p class="tagline">La gran caja que guarda todos los errores a la vez.</p>
+
+    <figure>
+      <img src="assets/img/exceptiongroup.svg" alt="La caja ExceptionGroup guarda varios errores juntos">
+      <figcaption>📦 ExceptionGroup: nadie se queda afuera.</figcaption>
+    </figure>
+
+    <p>Ahora sucede algo todavía más complicado. Azure falla. Y casi al mismo tiempo GCP también falla.</p>
+    <pre><code>
+Azure <span class="tok-o">→</span> ⏳ Timeout
+GCP   <span class="tok-o">→</span> 📦 Payload inválido
+    </code></pre>
+    <p>El problema es que <b>no queremos perder ninguno de los dos errores</b>. Si solamente capturamos uno,
+    podemos perder información importante.</p>
+
+    <p>Entonces el Reino utiliza una gran caja: 📦 <b><code>ExceptionGroup</code></b></p>
+    <p>Dentro de ella podemos guardar varios errores:</p>
+    <pre><code>
+EXCEPTION GROUP
+│
+├── ProviderTimeoutError
+│
+└── CorruptedPayloadError
+    </code></pre>
+    <p>Ahora ambos problemas pueden viajar juntos.</p>
+
+    <h3>🪓 El clasificador: <code>except*</code></h3>
+    <p>Pero alguien tiene que abrir la caja y organizar lo que contiene. Ese trabajo lo realiza <code>except*</code>.</p>
+    <p>El administrador dice: —Quiero todos los errores de timeout.</p>
+    <pre><code>except* ProviderTimeoutError</code></pre>
+    <p>Después: —Ahora quiero los errores de payload.</p>
+    <pre><code>except* CorruptedPayloadError</code></pre>
+    <p>Y después: —Ahora quiero los problemas de red.</p>
+    <pre><code>except* NetworkPeeringError</code></pre>
+    <div class="idea"><span class="kicker">La idea importante</span><br>
+      <code>except*</code> permite trabajar con diferentes tipos de errores que pueden existir
+      dentro de un grupo de excepciones concurrentes.
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 6 ================= -->
+  <section id="cap6" class="chapter" style="--chapter: #e8a53e">
+    <div class="chapter-head">
+      <span class="chapter-num">6</span>
+      <h2>El Error Tiene una Historia</h2>
+    </div>
+    <p class="tagline">Conservar la causa original y dejar notas amarillas.</p>
+
+    <figure>
+      <img src="assets/img/notas.svg" alt="La nota del investigador y la causa original del error">
+      <figcaption>📝 La evidencia nunca se destruye.</figcaption>
+    </figure>
+
+    <p>El Rey observa el expediente de Azure y pregunta: —¿Por qué ocurrió este <code>ProviderTimeoutError</code>?</p>
+    <p>El investigador responde: —Porque originalmente ocurrió otro error. Por ejemplo:</p>
+    <pre><code>
+httpx.TimeoutException
+          │
+          ▼
+ProviderTimeoutError
+    </code></pre>
+    <p>El Reino crea entonces un error propio: <b><code>ProviderTimeoutError</code></b>. Pero no quiere destruir
+    la información del error original: quiere conservar la evidencia.</p>
+    <p>Para eso utiliza:</p>
+    <pre><code>raise ProviderTimeoutError(...) <span class="tok-k">from</span> error_original</code></pre>
+    <p>Esto significa:</p>
+    <blockquote>«Estoy creando un error que tiene sentido para mi aplicación, pero quiero conservar la causa original.»</blockquote>
+    <p>Así podemos seguir el camino del problema:</p>
+    <pre><code>
+Problema original
+       <span class="tok-o">↓</span>
+Error técnico
+       <span class="tok-o">↓</span>
+Error del Reino
+    </code></pre>
+
+    <h3>📝 La nota del investigador: <code>add_note()</code></h3>
+    <p>El investigador todavía puede agregar información adicional. Por ejemplo:</p>
+    <pre><code>
+ProviderTimeoutError
+
+Nota:
+Azure no respondió después de 2 segundos.
+    </code></pre>
+    <p>Eso representa <b><code>add_note()</code></b>. Podemos imaginarlo como una nota amarilla pegada sobre el expediente. 🟨</p>
+    <p>El error principal sigue siendo el mismo, pero ahora tiene información adicional útil para investigar.</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 7 ================= -->
+  <section id="cap7" class="chapter" style="--chapter: #8a5a2b">
+    <div class="chapter-head">
+      <span class="chapter-num">7</span>
+      <h2>El Gran Archivista</h2>
+    </div>
+    <p class="tagline">Registrar toda la evidencia de manera estructurada.</p>
+
+    <p>Ahora el Reino tiene un problema: los errores están identificados, pero alguien debe guardar toda la información.</p>
+    <h3>🕵️ El Gran Archivista</h3>
+    <p>Este personaje representa:</p>
+    <div class="character-map"><span class="pill">logging_engine.py</span></div>
+    <p>Su trabajo es registrar lo ocurrido. Pero el Rey le da una orden:</p>
+    <blockquote>—No quiero que escribas solamente «ocurrió un error».</blockquote>
+    <p>El archivista debe registrar:</p>
+    <ul>
+      <li>cuándo ocurrió;</li>
+      <li>qué tarea estaba ejecutándose;</li>
+      <li>qué proveedor falló;</li>
+      <li>qué error ocurrió;</li>
+      <li>cuál fue la causa original;</li>
+      <li>si existieron otros errores;</li>
+      <li>información adicional útil para investigar.</li>
+    </ul>
+    <p>Esto permite realizar un verdadero <b>🔎 análisis forense</b>.</p>
+
+    <h3>📜 El formato de los expedientes: JSON</h3>
+    <p>El archivista podría escribir «Azure falló a las 10:30». Pero eso es solamente texto. El Reino necesita información organizada.</p>
+    <p>Entonces utiliza <b>JSON</b>:</p>
+    <pre><code>{
+  "hora": "10:30",
+  "proveedor": "Azure",
+  "error": "ProviderTimeoutError"
+}</code></pre>
+    <p>Podemos imaginar JSON como un formulario oficial.</p>
+    <pre><code>
+NOMBRE  <span class="tok-o">→</span> Juan
+EDAD    <span class="tok-o">→</span> 25
+CIUDAD  <span class="tok-o">→</span> La Rioja
+    </code></pre>
+    <p>En programación: <b>clave → valor</b>.</p>
+    <p>Esto permite que tanto las personas como los programas puedan interpretar la información de forma estructurada.</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 8 ================= -->
+  <section id="cap8" class="chapter" style="--chapter: #5b7fd4">
+    <div class="chapter-head">
+      <span class="chapter-num">8</span>
+      <h2>Las Cajas Dentro de las Cajas</h2>
+    </div>
+    <p class="tagline">Recursividad y el reloj del Reino.</p>
+
+    <figure>
+      <img src="assets/img/archivista.svg" alt="El Gran Archivista guarda y organiza toda la evidencia">
+      <figcaption>🕵️ Cada expediente guarda su propia historia.</figcaption>
+    </figure>
+
+    <h3>🌳 La recursividad</h3>
+    <p>El archivista abre una caja de errores y encuentra:</p>
+    <pre><code>
+CAJA PRINCIPAL
+│
+├── Error A
+│
+└── CAJA SECUNDARIA
+     │
+     ├── Error B
+     └── Error C
+    </code></pre>
+    <p>Pero podría existir otra caja dentro. Y otra. Y otra. ¿Cómo puede investigar todas?</p>
+    <p>El archivista utiliza una misma estrategia una y otra vez. Eso se llama <b>🔄 recursividad</b>.</p>
+    <blockquote>«Si encuentro una caja dentro de otra caja, vuelvo a utilizar el mismo procedimiento para investigar la nueva caja.»</blockquote>
+    <p>Por eso una función recursiva puede explorar estructuras de errores anidadas.</p>
+
+    <h3>⏰ El libro del tiempo</h3>
+    <p>El archivista también necesita saber exactamente cuándo ocurrió cada acontecimiento. No puede escribir «fue a la tarde»:
+    eso sería demasiado ambiguo.</p>
+    <p>El Reino utiliza un formato estándar: <b>ISO 8601 UTC</b>.</p>
+    <pre><code>2026-09-04T12:30:00Z</code></pre>
+    <p>Ahora todos los castillos pueden utilizar una referencia temporal común.</p>
+    <p>Además, el archivista puede registrar información como: <b>proceso</b>, <b>hilo</b> y <b>tarea asíncrona</b>.</p>
+
+    <h3>👷 Proceso, Hilo y Tarea</h3>
+    <p>Podemos imaginarlos dentro del castillo:</p>
+    <ul>
+      <li><b>🏰 Proceso</b> — el castillo completo. Representa: <span class="pill">process</span></li>
+      <li><b>👷 Hilo</b> — un trabajador dentro del castillo. Representa: <span class="pill">threadName</span></li>
+      <li><b>🏃 Tarea asíncrona</b> — una misión concreta, p. ej. «Consultar Azure». Representa: <span class="pill">taskName</span></li>
+    </ul>
+    <p>Así el archivista puede reconstruir mejor lo sucedido: «Este problema ocurrió en este proceso, en este hilo
+    y mientras se ejecutaba esta tarea.»</p>
+  </section>
+
+  <!-- ================= CAPÍTULO 9 ================= -->
+  <section id="cap9" class="chapter" style="--chapter: var(--gold)">
+    <div class="chapter-head">
+      <span class="chapter-num">9</span>
+      <h2>La Bandeja de Informes</h2>
+    </div>
+    <p class="tagline">Escribir nunca debe bloquear el trabajo principal.</p>
+
+    <figure>
+      <img src="assets/img/cola.svg" alt="Programa, QueueHandler, cola, QueueListener y archivo de log">
+      <figcaption>✉️ El informe se deja en la bandeja y el mensajero sigue su camino.</figcaption>
+    </figure>
+
+    <p>El Gran Archivista tiene otro problema: escribir los registros puede llevar tiempo. Si el programa tuviera que esperar
+    al archivista cada vez que ocurre algo, sucedería esto:</p>
+    <pre><code>
+Programa
+   <span class="tok-o">↓</span>
+Espera al archivista
+   <span class="tok-o">↓</span>
+Escribe el log
+   <span class="tok-o">↓</span>
+Continúa
+    </code></pre>
+    <p>Eso puede bloquear el trabajo del sistema.</p>
+    <p>El Rey entonces tiene una idea:</p>
+    <blockquote>—No quiero que el mensajero espere al archivista. Que deje el informe en una bandeja y continúe.</blockquote>
+    <p>Así aparece: 📦 <b><code>queue.Queue</code></b></p>
+
+    <h3>✉️ <code>QueueHandler</code></h3>
+    <p>Cuando ocurre un acontecimiento —«¡Azure tuvo un timeout!»— el programa no espera. En lugar de eso, deja el informe en la bandeja.</p>
+    <pre><code>
+PROGRAMA
+   │
+   ▼
+QueueHandler
+   │
+   ▼
+📦 COLA
+    </code></pre>
+    <p>Y el programa continúa trabajando.</p>
+
+    <h3>📚 <code>QueueListener</code></h3>
+    <p>Mientras tanto, otro trabajador vigila la bandeja. Ese trabajador es <code>QueueListener</code>. Su trabajo es:</p>
+    <blockquote>—Cuando llegue un informe, yo lo voy a recoger y registrar.</blockquote>
+    <pre><code>
+PROGRAMA
+   │
+   ▼
+QueueHandler
+   │
+   ▼
+📦 Queue
+   │
+   ▼
+QueueListener
+   │
+   ▼
+📖 ARCHIVO DE LOG
+    </code></pre>
+    <div class="idea"><span class="kicker">Beneficio</span><br>
+      La escritura de los logs queda separada del trabajo principal. Esto ayuda a evitar que la escritura en disco
+      bloquee el flujo de trabajo de <code>asyncio</code>.
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 10 ================= -->
+  <section id="cap10" class="chapter" style="--chapter: #1f9d55">
+    <div class="chapter-head">
+      <span class="chapter-num">10</span>
+      <h2>El Director de Tráfico</h2>
+    </div>
+    <p class="tagline">Quien decide qué tarea puede avanzar.</p>
+
+    <figure>
+      <img src="assets/img/eventloop.svg" alt="El Director de Tráfico (Event Loop) decide quién avanza">
+      <figcaption>🚦 Uno espera; los demás siguen avanzando.</figcaption>
+    </figure>
+
+    <p>Dentro del castillo existe un personaje que nunca descansa: 🚦 <b>El Director de Tráfico</b>.</p>
+    <p>Está constantemente observando:</p>
+    <ul>
+      <li>—¿AWS está listo?</li>
+      <li>—¿Azure sigue esperando?</li>
+      <li>—¿GCP respondió?</li>
+      <li>—¿Hay otra tarea que pueda continuar?</li>
+    </ul>
+    <p>Este personaje representa: <b>Event Loop</b>.</p>
+    <p>El Event Loop coordina las tareas asíncronas y decide cuál puede avanzar.</p>
+    <p>Por eso existe una regla importante:</p>
+    <blockquote>No debemos bloquear innecesariamente al Event Loop con operaciones lentas. Si el director se queda
+    escribiendo un libro enorme, deja de dirigir el tráfico.</blockquote>
+  </section>
+
+  <!-- ================= CAPÍTULO 11 ================= -->
+  <section id="cap11" class="chapter" style="--chapter: #c0392b">
+    <div class="chapter-head">
+      <span class="chapter-num">11</span>
+      <h2>El Libro que Crece sin Parar</h2>
+    </div>
+    <p class="tagline">Rotación y compresión: el archivo nunca satura el reino.</p>
+
+    <figure>
+      <img src="assets/img/rotacion.svg" alt="El libro de registros se rota y se comprime con gzip">
+      <figcaption>🗜️ gzip: la máquina que encoge los libros viejos.</figcaption>
+    </figure>
+
+    <p>El archivista continúa escribiendo. 📕 Log. Después de un tiempo: 📕📕📕📕📕📕📕</p>
+    <p>El libro se vuelve enorme.</p>
+    <p>El Rey dice:</p>
+    <blockquote>—No podemos permitir que el libro crezca para siempre.</blockquote>
+    <p>Entonces establece una regla:</p>
+    <blockquote>«Cuando el archivo llegue a 2 MB, debe comenzar uno nuevo.»</blockquote>
+    <p>Esto representa <b><code>RotatingFileHandler</code></b>. El sistema mantiene:</p>
+    <ul>
+      <li>un archivo activo;</li>
+      <li>hasta 3 archivos de respaldo.</li>
+    </ul>
+    <p>Así los registros antiguos no ocupan espacio indefinidamente.</p>
+
+    <h3>🗜️ La máquina que comprime los libros: <code>gzip</code></h3>
+    <p>Los libros antiguos siguen ocupando espacio. El Reino encuentra una solución.</p>
+    <pre><code>
+Libro viejo
+     │
+     ▼
+  COMPRESIÓN
+     │
+     ▼
+Libro viejo.gz
+    </code></pre>
+    <p>La información continúa existiendo, pero ocupa menos espacio.</p>
+
+    <h3>🏷️ <code>namer</code> y 🔄 <code>rotator</code></h3>
+    <p>El Reino tiene dos empleados especiales:</p>
+    <ul>
+      <li><b>🏷️ <code>namer</code></b> — decide cómo se llamará el archivo.</li>
+      <li><b>🔄 <code>rotator</code></b> — se encarga de mover y comprimir el archivo antiguo durante la rotación.</li>
+    </ul>
+    <pre><code>
+Libro actual
+     <span class="tok-o">↓</span>
+Se completa
+     <span class="tok-o">↓</span>
+Se mueve
+     <span class="tok-o">↓</span>
+Se comprime
+     <span class="tok-o">↓</span>
+Se crea un nuevo libro
+    </code></pre>
+  </section>
+
+  <!-- ================= CAPÍTULO 12 ================= -->
+  <section id="cap12" class="chapter" style="--chapter: #6b4fa1">
+    <div class="chapter-head">
+      <span class="chapter-num">12</span>
+      <h2>El Maestro de Ceremonias</h2>
+    </div>
+    <p class="tagline">Quien coordina a todos los personajes.</p>
+
+    <h3>🎼 El Maestro de Ceremonias</h3>
+    <p>Hasta ahora conocemos muchos personajes:</p>
+    <p>
+      🛡️ Sanitizer · 🎖️ Comandante Core · ⚖️ Tribunal de Errores · 🕵️ Archivista ·
+      🚦 Event Loop · 📦 QueueHandler · 📚 QueueListener
+    </p>
+    <p>Pero alguien tiene que coordinar todo. Ese personaje es el <b>Maestro de Ceremonias</b>.</p>
+    <p>Representa:</p>
+    <div class="character-map"><span class="pill">app_operator.py</span></div>
+    <p>Su trabajo es coordinar el funcionamiento general. Cuando llega un usuario, dice:</p>
+    <ul>
+      <li>—Caballero Sanitizer, revise las órdenes.</li>
+      <li>—Comandante Core, inicie las consultas.</li>
+      <li>—Tribunal de Errores, estén preparados.</li>
+      <li>—Archivista, registre todo.</li>
+    </ul>
+
+    <h3>🖥️ La puerta del usuario: CLI</h3>
+    <p>El usuario no necesita conocer todos los detalles internos del castillo. Simplemente escribe una orden:</p>
+    <pre><code>triton --timeout 2 --mode debug</code></pre>
+    <p>Esta interfaz se llama <b>CLI — Command Line Interface</b>. Es la puerta mediante la cual el usuario se comunica con el programa.</p>
+
+    <h3>🎮 El secretario: <code>argparse</code></h3>
+    <p>Pero alguien debe interpretar lo que escribió el usuario. Ese personaje es <code>argparse</code>.</p>
+    <p>El usuario escribe <code>--timeout 2</code>. El secretario interpreta: «El usuario quiere establecer un timeout de 2 segundos.»
+    Después entrega esa información al programa.</p>
+    <pre><code>
+Usuario
+   <span class="tok-o">↓</span>
+CLI
+   <span class="tok-o">↓</span>
+argparse
+   <span class="tok-o">↓</span>
+Validación
+   <span class="tok-o">↓</span>
+Programa
+    </code></pre>
+  </section>
+
+  <!-- ================= CAPÍTULO 13 ================= -->
+  <section id="cap13" class="chapter" style="--chapter: #1f9d55">
+    <div class="chapter-head">
+      <span class="chapter-num">13</span>
+      <h2>La Limpieza Final</h2>
+    </div>
+    <p class="tagline">Pase lo que pase, siempre se limpia.</p>
+
+    <figure>
+      <img src="assets/img/maestro.svg" alt="El Maestro de Ceremonias y la limpieza final">
+      <figcaption>🎼 Coordinar todo… y terminar limpio.</figcaption>
+    </figure>
+
+    <p>La misión finalmente termina. Puede ocurrir de dos maneras:</p>
+    <ul>
+      <li>🎉 Todo salió bien; o</li>
+      <li>💥 Algo salió mal.</li>
+    </ul>
+    <p>Pero existe algo que debe hacerse en ambos casos: <b>limpiar correctamente los recursos utilizados</b>. Por ejemplo:</p>
+    <ul>
+      <li>cerrar el listener de logs;</li>
+      <li>liberar recursos;</li>
+      <li>realizar las tareas necesarias antes de terminar.</li>
+    </ul>
+    <p>Para eso existe <b><code>finally</code></b>.</p>
+    <p>Podemos imaginar al Rey dando una última orden:</p>
+    <blockquote>«Pase lo que pase, antes de abandonar el castillo, hagan la limpieza.»</blockquote>
+
+    <h3>🚫 ¿Por qué no usar <code>return</code> dentro de <code>finally</code>?</h3>
+    <p>Imaginemos que los investigadores todavía están trabajando en un caso. De repente alguien entra y grita: «¡Todos a casa!»</p>
+    <p>Si el sistema utiliza <code>return</code> dentro de <code>finally</code>, podría interferir con la propagación normal de errores
+    y con el control del flujo.</p>
+    <p>Por eso la limpieza debe limitarse a limpiar. No debería utilizar <code>return</code>, <code>break</code> ni <code>continue</code>
+    para alterar el flujo de control.</p>
+  </section>
+
+  <!-- ================= FINAL ================= -->
+  <section id="final">
+    <div class="chapter" style="--chapter: var(--gold)">
+      <div class="chapter-head">
+        <span class="chapter-num">🏆</span>
+        <h2>El Final de la Historia</h2>
+      </div>
+      <p class="tagline">El recorrido completo del Reino Tritón.</p>
+
+      <p>La misión del Reino Tritón ha terminado. Pero ahora podemos mirar hacia atrás y entender todo el recorrido.</p>
+
+      <div class="flow"><pre><code>👤 USUARIO
+    │
+    ▼
+🖥️ CLI
+    │
+    ▼
+🎮 argparse
+    │
+    ▼
+🛡️ Sanitizer
+    │
+    ▼
+🎖️ Core
+    │
+    ├──────────┬──────────┐
+    ▼          ▼          ▼
+   AWS       Azure       GCP
+    │          │          │
+    └──────────┼──────────┘
+               ▼
+          ⚡ Asyncio
+               │
+               ▼
+        ⚖️ Manejo de errores
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+   Un error      Varios errores
+        │             │
+        ▼             ▼
+   Exception    ExceptionGroup
+        │             │
+        └──────┬──────┘
+               ▼
+          🕵️ Logging
+               │
+               ▼
+             JSON
+               │
+               ▼
+          📦 Queue
+               │
+               ▼
+        📚 QueueListener
+               │
+               ▼
+       📕 Archivos de log
+               │
+               ▼
+      🔄 Rotación + gzip
+               │
+               ▼
+            🧹 finally</code></pre></div>
+
+      <p>Y ahora podemos traducir los personajes al lenguaje técnico:</p>
+
+      <table>
+        <thead>
+          <tr><th>🏰 Historia</th><th>💻 Python / Concepto</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Puerta del castillo</td><td>Validación</td></tr>
+          <tr><td>Caballero Sanitizer</td><td><code>sanitizer.py</code></td></tr>
+          <tr><td>Reglas del nombre</td><td>Expresiones regulares (<code>re</code>)</td></tr>
+          <tr><td>Maestro de Ceremonias</td><td><code>app_operator.py</code></td></tr>
+          <tr><td>Secretario</td><td><code>argparse</code></td></tr>
+          <tr><td>Comandante</td><td><code>core.py</code></td></tr>
+          <tr><td>Mensajeros</td><td>Corrutinas / tareas</td></tr>
+          <tr><td>Misiones simultáneas</td><td>Concurrencia</td></tr>
+          <tr><td>No detener el castillo</td><td>Asincronía</td></tr>
+          <tr><td>Esperar sin bloquear</td><td><code>await</code></td></tr>
+          <tr><td>Misión asíncrona</td><td><code>async</code></td></tr>
+          <tr><td>Grupo de misiones</td><td><code>TaskGroup</code></td></tr>
+          <tr><td>Palomas mensajeras</td><td><code>httpx.AsyncClient</code></td></tr>
+          <tr><td>Tribunal</td><td><code>exceptions.py</code></td></tr>
+          <tr><td>Rey de los errores</td><td><code>TritonError</code></td></tr>
+          <tr><td>Mensajero que tarda demasiado</td><td><code>ProviderTimeoutError</code></td></tr>
+          <tr><td>Carta dañada</td><td><code>CorruptedPayloadError</code></td></tr>
+          <tr><td>Puente destruido</td><td><code>NetworkPeeringError</code></td></tr>
+          <tr><td>Caja de errores</td><td><code>ExceptionGroup</code></td></tr>
+          <tr><td>Clasificador</td><td><code>except*</code></td></tr>
+          <tr><td>Causa original</td><td><code>raise ... from</code></td></tr>
+          <tr><td>Nota del investigador</td><td><code>add_note()</code></td></tr>
+          <tr><td>Archivista</td><td><code>logging_engine.py</code></td></tr>
+          <tr><td>Expediente estructurado</td><td>JSON</td></tr>
+          <tr><td>Cajas dentro de cajas</td><td>Recursividad</td></tr>
+          <tr><td>Bandeja de informes</td><td><code>queue.Queue</code></td></tr>
+          <tr><td>Mensajero de informes</td><td><code>QueueHandler</code></td></tr>
+          <tr><td>Archivista que escucha</td><td><code>QueueListener</code></td></tr>
+          <tr><td>Director de tráfico</td><td>Event Loop</td></tr>
+          <tr><td>Libro de registros</td><td>Log</td></tr>
+          <tr><td>Renovar el libro</td><td><code>RotatingFileHandler</code></td></tr>
+          <tr><td>Compresor</td><td><code>gzip</code></td></tr>
+          <tr><td>Encargado del nombre</td><td><code>namer</code></td></tr>
+          <tr><td>Encargado de mover/comprimir</td><td><code>rotator</code></td></tr>
+          <tr><td>Limpieza final</td><td><code>finally</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= IDEA CENTRAL ================= -->
+  <section class="motto">
+    <div class="wrap">
+      <img src="assets/img/hero-castillo.svg" alt="El Reino Tritón">
+      <h2>🧠 La historia completa en una sola idea</h2>
+      <p>Si mañana alguien te pregunta: <b>«¿Qué hace el Proyecto Tritón?»</b>…</p>
+      <p>No necesitás empezar hablando de <code>asyncio</code>, <code>ExceptionGroup</code>, <code>QueueHandler</code>
+      o <code>RotatingFileHandler</code>. Primero podés contar la historia:</p>
+      <p class="steps" style="font-style: italic; color:#e9edff; max-width: 760px; margin: 18px auto;">
+        Un usuario llega al castillo y entrega una orden. Un guardia verifica que la información sea válida antes de permitirle el acceso.
+        Después, un comandante envía mensajeros simultáneamente a AWS, Azure y GCP. Mientras un mensajero espera una respuesta,
+        los demás pueden continuar trabajando.
+      </p>
+      <p class="steps" style="font-style: italic; color:#e9edff; max-width: 760px; margin: 18px auto;">
+        Si un territorio falla, el sistema identifica exactamente qué tipo de problema ocurrió. Si ocurren varios problemas al mismo tiempo,
+        los agrupa para no perder información. Además, conserva la causa original del error y permite agregar notas para facilitar la investigación.
+      </p>
+      <p class="steps" style="font-style: italic; color:#e9edff; max-width: 760px; margin: 18px auto;">
+        Después aparece un archivista que registra toda la evidencia de manera estructurada. Para evitar que escribir los registros detenga
+        el trabajo principal, los informes pasan primero por una bandeja y otro trabajador se encarga de escribirlos.
+        Cuando los archivos de registro crecen demasiado, se rotan y los antiguos se comprimen.
+      </p>
+      <p class="steps" style="font-style: italic; color:#e9edff; max-width: 760px; margin: 18px auto;">
+        Finalmente, un maestro de ceremonias coordina todo el sistema y, cuando la misión termina, <code>finally</code>
+        garantiza que los recursos necesarios sean limpiados incluso si algo salió mal.
+      </p>
+      <p style="color: var(--gold); font-size: 17px; margin-top: 26px;">Y esa es la idea central del Reino Tritón:</p>
+      <h2 style="font-size: clamp(22px, 4vw, 32px);">🏰 Recibir → validar → ejecutar en paralelo → detectar errores → conservar evidencia → registrar → organizar → limpiar.</h2>
+      <p class="note" style="margin-top: 20px;">Si entendés <b>ese recorrido</b>, los nombres técnicos dejan de parecer una lista de palabras difíciles.
+      Cada uno simplemente es <b>un personaje que cumple una función dentro del castillo</b>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>🏰 <b>La historia del Reino Tritón</b> — Proyecto Tritón · Telemetría Multicloud y Observabilidad Asíncrona</p>
+  <p><a href="https://github.com/john-alexanderr/-Sistema-de-Telemetr-a-Multicloud-y-Observabilidad-As-ncrona-Proyecto-Trit-n-">Volver al repositorio</a></p>
+</footer>
+
+</body>
+</html>

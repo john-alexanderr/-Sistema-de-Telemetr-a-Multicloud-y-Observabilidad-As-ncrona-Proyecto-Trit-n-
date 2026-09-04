@@ -28,3 +28,23 @@ def test_timeout_fuera_de_rango_aborta_con_codigo_2():
         check=False,
     )
     assert result.returncode == 2
+
+
+def test_salida_quiet_y_verbose_es_mutuamente_excluyente():
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(APP),
+            "AWS",
+            "-c",
+            "cluster-us-east-01",
+            "-q",
+            "-v",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert "not allowed with argument" in result.stderr

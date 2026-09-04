@@ -82,8 +82,12 @@ pip install -r requirements.txt -r requirements-dev.txt
 ## Uso
 
 ```bash
-python src/app_operator.py AWS Azure GCP -c cluster-us-east-01 -t 3.0 [--chaos] [-m nominal|debug|emergency]
+python src/app_operator.py AWS Azure GCP -c cluster-us-east-01 -t 3.0 [--chaos] [-m nominal|debug|emergency] [-q|-v]
 ```
+
+`--quiet` (`-q`) y `--verbose` (`-v`) son opciones mutuamente excluyentes. El modo
+`nominal` muestra informacion, `debug` agrega trazas DEBUG y `emergency` muestra solo
+errores. Si se especifica `-q` o `-v`, esa opcion prevalece sobre el modo.
 
 ## Guía de pruebas (escenarios oficiales)
 
@@ -110,10 +114,10 @@ La aplicación no abre el event loop ni conexiones de red: `argparse` recibe el
 python src/app_operator.py AWS Azure GCP -c cluster-us-west-02 -t 1.5 --chaos
 ```
 
-El `TaskGroup` agrupa los colapsos simultáneos (timeout en `httpbin.org/delay/3`, estatus 504 en
-`httpbin.org/status/504` y payload XML corrupto) en un `ExceptionGroup`. Los bloques `except*`
-diseccionan cada categoría, imprimen las notas forenses agregadas con `add_note()` y el volcado
-JSON completo queda en `triton_services.log`.
+Cada tarea captura su fallo semantico y el orquestador reconstruye un `ExceptionGroup` con todos
+los errores concurrentes. Asi no se pierde la evidencia de los proveedores hermanos cuando uno
+falla primero. Los bloques `except*` diseccionan cada categoria, imprimen las notas forenses
+agregadas con `add_note()` y el volcado JSON completo queda en `triton_services.log`.
 
 ### Suite de caos y validación forense (rol 6)
 
@@ -128,11 +132,11 @@ Los tests son offline (no necesitan internet), salvo el de la CLI que valida el 
 
 | Archivo | Qué valida |
 |---|---|
-| `tests/test_sanitizer.py` | Rango de timeout [0.1, 5.0] y regex de cluster en la frontera CLI |
+| `tests/test_sanitizer.py` | Rango de timeout [0.1, 5.0] y regex flexible de cluster en la frontera CLI |
 | `tests/test_exceptions.py` | Herencia desde `Exception` (nunca `BaseException`) y `add_note` |
 | `tests/test_formatter.py` | Serialización recursiva del `ExceptionGroup`, notas, causa y metadatos ISO 8601 UTC |
-| `tests/test_core_offline.py` | Mapeo de errores de `httpx` simulados con `MockTransport` |
-| `tests/test_cli_integration.py` | Aborto con código 2 ante argumentos inválidos (escenario B) |
+| `tests/test_core_offline.py` | Mapeo de errores de `httpx` y preservacion de fallos concurrentes con `MockTransport` |
+| `tests/test_cli_integration.py` | Aborto con código 2 ante argumentos inválidos y opciones de salida excluyentes |
 | `tests/test_hard_gates.py` | Prohíbe `return/break/continue` en `finally` y `except: pass` / `BaseException` |
 
 El CI (`.github/workflows/ci.yml`) ejecuta en cada push: linting PEP 8 con `ruff` y la suite
@@ -179,3 +183,22 @@ ruff check src tests scripts
 | Logging estructurado | `structlog`, `python-json-logger` | Se resolvió con stdlib (`logging`) |
 | Validación de entradas | `pydantic` | La consigna exige callables de `argparse` |
 | CLI | `typer` | La consigna exige `argparse` |
+
+---
+
+## 🏰 La historia del Reino Tritón (GitHub Pages)
+
+¿Querés entender todo el proyecto sin leer código? Entrá al cuento ilustrado del **Reino Tritón**:
+una historia con escenas dibujadas (castillo, caballero Sanitizer, mensajeros concurrentes, palomas
+de `httpx`, el Tribunal de Errores, la bandeja de informes y el libro que se rota y se comprime) que
+explica cada concepto del TP con un personaje del reino.
+
+**👉 Abrir la historia:** <https://john-alexanderr.github.io/-Sistema-de-Telemetr-a-Multicloud-y-Observabilidad-As-ncrona-Proyecto-Trit-n-/>
+
+El sitio es estático y vive en la carpeta [`docs/`](docs/) con sus ilustraciones en
+[`docs/assets/`](docs/assets/). El workflow `.github/workflows/pages.yml` lo publica automáticamente
+en cada push a `main`.
+
+> **Nota de activación (una sola vez):** en *Settings → Pages → Build and deployment → Source*,
+> elegí **"GitHub Actions"** y hacé un push (o el trigger manual) para que el workflow despliegue el sitio.
+> Si preferís no usar Actions, también podés elegir *"Deploy from a branch"* con la rama `main` y la carpeta `/docs`.

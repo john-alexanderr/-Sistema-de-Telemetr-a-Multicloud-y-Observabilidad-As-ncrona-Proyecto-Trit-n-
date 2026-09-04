@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="El libro de registros crece, se rota y se comprime con gzip">
+  <rect x="0" y="0" width="480" height="240" fill="#fff7e8"/>
+
+  <g transform="translate(30,96)">
+    <g fill="#8a5a2b">
+      <rect x="0" y="44" width="120" height="22" rx="4"/>
+      <rect x="0" y="22" width="120" height="22" rx="4"/>
+    </g>
+    <rect x="0" y="0" width="120" height="22" rx="4" fill="#c0392b"/>
+    <text x="60" y="16" text-anchor="middle" font-family="serif" font-size="11" font-weight="700" fill="#fff">.log actual</text>
+    <text x="60" y="58" text-anchor="middle" font-family="serif" font-size="10" fill="#fff">.log.1</text>
+    <text x="60" y="80" text-anchor="middle" font-family="serif" font-size="10" fill="#fff">.log.2</text>
+    <g fill="#fff" opacity="0.85">
+      <rect x="-6" y="6" width="4" height="10" rx="2"/>
+      <rect x="122" y="6" width="4" height="10" rx="2"/>
+    </g>
+  </g>
+
+  <g transform="translate(180,120)">
+    <text x="20" y="0" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#6b4c00">🗜️ gzip</text>
+    <rect x="-20" y="12" width="80" height="40" rx="10" fill="#6b4fa1"/>
+    <text x="20" y="38" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#fff">COMPRIME</text>
+  </g>
+
+  <g transform="translate(330,110)">
+    <rect x="0" y="0" width="100" height="22" rx="4" fill="#1f9d55"/>
+    <text x="50" y="16" text-anchor="middle" font-family="serif" font-size="10" font-weight="700" fill="#fff">.log.1.gz 👍</text>
+  </g>
+
+  <g stroke="#3a4a8f" stroke-width="3" marker-end="url(#fr)" fill="none">
+    <line x1="152" y1="125" x2="176" y2="125"/>
+    <line x1="260" y1="132" x2="328" y2="120"/>
+  </g>
+  <defs>
+    <marker id="fr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#3a4a8f"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(300,176)" font-family="sans-serif" font-size="10" font-weight="700" fill="#24316b">
+    <text x="-60" y="14">🏷️ namer decide el .gz</text>
+    <text x="-240" y="14">🔄 rotator mueve y comprime</text>
+  </g>
+
+  <text x="240" y="230" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">El libro crece, se renueva y ocupa menos espacio</text>
+</svg>

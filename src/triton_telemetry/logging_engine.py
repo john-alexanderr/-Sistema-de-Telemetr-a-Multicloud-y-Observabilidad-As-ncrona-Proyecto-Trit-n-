@@ -147,3 +147,16 @@ def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.L
     app_logger.listener = listener
 
     return app_logger
+
+
+def set_console_level(logger: logging.Logger, level: int) -> None:
+    """Configura el nivel del handler de consola que vive dentro del listener."""
+    listener = getattr(logger, "listener", None)
+    if listener is None:
+        return
+
+    for handler in listener.handlers:
+        if isinstance(handler, logging.StreamHandler) and not isinstance(
+            handler, logging.FileHandler
+        ):
+            handler.setLevel(level)

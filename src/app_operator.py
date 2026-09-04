@@ -5,6 +5,7 @@ Alternativa profesional no implementada: typer sobre argparse.
 
 import argparse
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from triton_telemetry import (
     parse_cluster_id,
     parse_timeout,
     scan_all_providers,
+    set_console_level,
     setup_triton_logging,
 )
 
@@ -65,12 +67,34 @@ def build_cli_parser() -> argparse.ArgumentParser:
         help="Modo de operacion del despachador de telemetria.",
     )
 
+    output_group = parser.add_mutually_exclusive_group()
+    output_group.add_argument(
+        "-q", "--quiet", action="store_true", help="Muestra solamente errores en consola."
+    )
+    output_group.add_argument(
+        "-v", "--verbose", action="store_true", help="Muestra tambien el detalle DEBUG en consola."
+    )
+
     return parser
+
+
+def configure_console_output(args: argparse.Namespace) -> None:
+    """Aplica las prioridades explicitas de salida y luego el modo operativo."""
+    if args.quiet:
+        level = logging.ERROR
+    elif args.verbose or args.mode == "debug":
+        level = logging.DEBUG
+    elif args.mode == "emergency":
+        level = logging.ERROR
+    else:
+        level = logging.INFO
+    set_console_level(logger, level)
 
 
 async def async_main():
     parser = build_cli_parser()
     args = parser.parse_args()
+    configure_console_output(args)
 
     logger.info("=" * 64)
     logger.info("INICIANDO MONITOREO MULTICLOUD: PROYECTO TRITON")

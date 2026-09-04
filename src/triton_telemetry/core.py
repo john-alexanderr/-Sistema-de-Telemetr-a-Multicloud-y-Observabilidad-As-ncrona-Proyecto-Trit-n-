@@ -10,7 +10,12 @@ import os
 
 import httpx
 
-from .exceptions import CorruptedPayloadError, NetworkPeeringError, ProviderTimeoutError
+from .exceptions import (
+    CorruptedPayloadError,
+    NetworkPeeringError,
+    ProviderTimeoutError,
+    TritonError,
+)
 
 logger = logging.getLogger("triton_monitor")
 
@@ -93,20 +98,31 @@ async def query_provider_telemetry(provider: str, timeout: float, use_chaos: boo
             raise n_err from err
 
 
+async def _run_provider_safely(
+    provider: str, timeout: float, use_chaos: bool
+) -> dict | TritonError:
+    """Ejecuta una consulta sin cancelar las consultas hermanas ante un fallo semantico."""
+    try:
+        return await query_provider_telemetry(provider, timeout, use_chaos)
+    except TritonError as error:
+        return error
+
+
 async def scan_all_providers(providers: list[str], timeout: float, use_chaos: bool = False) -> list[dict]:
-    """Orquesta las consultas paralelas dentro de un asyncio.TaskGroup."""
+    """Orquesta consultas paralelas y conserva todos los fallos semanticos concurrentes."""
     tasks = []
-    results = []
 
     async with asyncio.TaskGroup() as tg:
         for provider in providers:
             task = tg.create_task(
-                query_provider_telemetry(provider, timeout, use_chaos),
+                _run_provider_safely(provider, timeout, use_chaos),
                 name=f"Task-{provider}",
             )
             tasks.append(task)
 
-    for task in tasks:
-        results.append(task.result())
+    outcomes = [task.result() for task in tasks]
+    errors = [outcome for outcome in outcomes if isinstance(outcome, TritonError)]
+    if errors:
+        raise ExceptionGroup("Fallos concurrentes de telemetria Triton", errors)
 
-    return results
+    return [outcome for outcome in outcomes if isinstance(outcome, dict)]

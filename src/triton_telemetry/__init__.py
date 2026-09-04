@@ -7,7 +7,7 @@ from .exceptions import (
     ProviderTimeoutError,
     TritonError,
 )
-from .logging_engine import setup_triton_logging
+from .logging_engine import set_console_level, setup_triton_logging
 from .sanitizer import parse_cluster_id, parse_timeout
 
 __all__ = [
@@ -18,5 +18,6 @@ __all__ = [
     "parse_cluster_id",
     "parse_timeout",
     "scan_all_providers",
+    "set_console_level",
     "setup_triton_logging",
 ]

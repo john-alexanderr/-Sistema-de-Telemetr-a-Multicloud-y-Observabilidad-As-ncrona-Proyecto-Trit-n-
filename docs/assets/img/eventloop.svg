@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="El Director de Tráfico (Event Loop) decide quién avanza">
+  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+
+  <g transform="translate(40,40)">
+    <rect x="0" y="0" width="90" height="170" rx="10" fill="#24316b"/>
+    <g>
+      <circle cx="45" cy="34" r="22" fill="#e25563" stroke="#3d4766" stroke-width="3"/>
+      <circle cx="45" cy="88" r="22" fill="#f2b93b" stroke="#3d4766" stroke-width="3">
+        <animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45" cy="142" r="22" fill="#1f9d55" stroke="#3d4766" stroke-width="3"/>
+    </g>
+  </g>
+
+  <g transform="translate(190,50)">
+    <rect x="0" y="0" width="150" height="42" rx="10" fill="#4056a1"/>
+    <text x="24" y="27" font-family="sans-serif" font-size="13" font-weight="700" fill="#fff">🚦 Event Loop</text>
+    <g fill="#fff" opacity="0.9">
+      <circle cx="24" cy="62" r="5"/>
+      <circle cx="44" cy="62" r="5"/>
+      <circle cx="84" cy="62" r="5"/>
+      <circle cx="104" cy="62" r="5"/>
+    </g>
+  </g>
+
+  <g stroke="#3a4a8f" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M136 80 q30 -18 64 0"/>
+    <path d="M136 106 q40 34 90 20"/>
+    <path d="M136 128 q20 -40 70 -30"/>
+  </g>
+  <g fill="#3a4a8f">
+    <polygon points="197,60 210,62 200,72"/>
+    <polygon points="222,128 236,130 228,140"/>
+    <polygon points="200,100 214,108 204,112"/>
+  </g>
+
+  <g transform="translate(372,50)" font-family="sans-serif" font-size="10.5" font-weight="700">
+    <rect x="0" y="0" width="80" height="34" rx="8" fill="#e25563"/>
+    <text x="16" y="22" fill="#fff">AWS ⏳ espera</text>
+    <rect x="0" y="60" width="90" height="34" rx="8" fill="#1f9d55"/>
+    <text x="16" y="82" fill="#fff">Azure 🏃 sigue</text>
+    <rect x="0" y="120" width="90" height="34" rx="8" fill="#1f9d55"/>
+    <text x="16" y="142" fill="#fff">GCP 🏃 sigue</text>
+  </g>
+
+  <text x="240" y="232" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">Uno espera, pero el castillo nunca se detiene</text>
+</svg>

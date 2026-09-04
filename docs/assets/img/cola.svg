@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="La bandeja de informes: QueueHandler, Queue y QueueListener">
+  <rect x="0" y="0" width="480" height="240" fill="#eef4ff"/>
+
+  <g font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle">
+    <rect x="24" y="86" width="86" height="52" rx="8" fill="#4056a1"/>
+    <text x="67" y="106" fill="#fff" font-size="11">PROGRAMA</text>
+    <text x="67" y="124" fill="#cfd9ff" font-size="9">mensajero</text>
+
+    <rect x="150" y="86" width="80" height="52" rx="8" fill="#6b4fa1"/>
+    <text x="190" y="106" fill="#fff" font-size="11">QueueHandler</text>
+    <text x="190" y="124" fill="#d9ccff" font-size="9">deja el informe</text>
+
+    <rect x="270" y="80" width="80" height="64" rx="8" fill="#ffffff" stroke="#f2b93b" stroke-width="4"/>
+    <text x="310" y="106" fill="#6b4c00" font-size="11">📦 COLA</text>
+    <text x="310" y="124" fill="#8f6f22" font-size="9">queue.Queue</text>
+
+    <rect x="390" y="86" width="74" height="52" rx="8" fill="#2fa8a0"/>
+    <text x="427" y="106" fill="#fff" font-size="11">QueueListener</text>
+    <text x="427" y="124" fill="#d7f5f2" font-size="9">escribe 📖</text>
+
+    <rect x="158" y="176" width="120" height="34" rx="6" fill="#e25563"/>
+    <text x="218" y="196" fill="#fff" font-size="11">📕 ARCHIVO DE LOG</text>
+  </g>
+
+  <g stroke="#3a4a8f" stroke-width="3" marker-end="url(#fl)" fill="none">
+    <line x1="112" y1="112" x2="146" y2="112"/>
+    <line x1="232" y1="112" x2="266" y2="112"/>
+    <line x1="352" y1="112" x2="386" y2="112"/>
+    <line x1="310" y1="146" x2="310" y2="172"/>
+  </g>
+  <defs>
+    <marker id="fl" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#3a4a8f"/>
+    </marker>
+  </defs>
+
+  <g fill="#ffd25c">
+    <circle cx="427" cy="86" r="9"/>
+    <circle cx="427" cy="102" r="9"/>
+    <circle cx="418" cy="96" r="8"/>
+  </g>
+
+  <text x="240" y="230" text-anchor="middle" font-family="serif" font-size="14" font-style="italic" fill="#24316b">✉️ Dejar el informe y seguir trabajando</text>
+</svg>

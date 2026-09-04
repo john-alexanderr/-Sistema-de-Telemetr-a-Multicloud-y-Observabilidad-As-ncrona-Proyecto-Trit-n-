@@ -6,11 +6,13 @@ verifica los metadatos obligatorios y la presencia del arbol completo de excepci
 
 import gzip
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
 
 CAMPOS_OBLIGATORIOS = ("timestamp", "level", "message", "process", "thread_name", "async_task")
+HTTP_STATUS_PATTERN = re.compile(r"\b[45]\d{2}\b")
 
 
 def abrir_log(ruta: Path):
@@ -37,16 +39,35 @@ def validar_evento(evento: dict, errores: list) -> int:
     return validar_arbol(evento.get("exception_tree"), errores)
 
 
-def validar_arbol(nodo, errores: list) -> int:
+def validar_arbol(nodo, errores: list, ancestros: tuple[dict, ...] = ()) -> int:
     """Recorre recursivamente el arbol de excepciones serializado."""
     if nodo is None:
         return 0
+    if not isinstance(nodo, dict):
+        errores.append("nodo de excepcion no es un objeto JSON")
+        return 0
     if not nodo.get("class") or "message" not in nodo:
         errores.append("nodo de excepcion incompleto")
+
+    if nodo.get("class") == "HTTPStatusError":
+        message = str(nodo.get("message", ""))
+        contexto = " ".join(
+            note
+            for ancestro in ancestros
+            for note in ancestro.get("notes", [])
+        )
+        if not HTTP_STATUS_PATTERN.search(message):
+            errores.append("HTTPStatusError sin codigo de estado HTTP en el mensaje")
+        if "HTTP_Status_Code:" not in contexto:
+            errores.append("HTTPStatusError sin nota HTTP_Status_Code en su excepcion semantica")
+        if "HTTP_Method:" not in contexto:
+            errores.append("HTTPStatusError sin nota HTTP_Method en su excepcion semantica")
+
     total = 1
+    siguientes_ancestros = (*ancestros, nodo)
     for anidada in nodo.get("nested_exceptions", []):
-        total += validar_arbol(anidada, errores)
-    total += validar_arbol(nodo.get("cause"), errores)
+        total += validar_arbol(anidada, errores, siguientes_ancestros)
+    total += validar_arbol(nodo.get("cause"), errores, siguientes_ancestros)
     return total
 
 
@@ -85,6 +106,9 @@ def main() -> int:
                 if evento.get("level") in ("ERROR", "CRITICAL"):
                     eventos_error += 1
                 arboles += validar_evento(evento, errores)
+
+    if eventos_error and not arboles:
+        errores.append("hay eventos de error pero no se encontro ningun arbol de excepciones")
 
     print("=== VALIDACION FORENSE DE TELEMETRIA TRITON ===")
     print(f"Archivos inspeccionados : {len(archivos)} ({', '.join(a.name for a in archivos)})")

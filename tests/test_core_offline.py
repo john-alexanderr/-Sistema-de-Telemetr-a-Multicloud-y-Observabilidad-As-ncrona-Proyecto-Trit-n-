@@ -74,3 +74,13 @@ def test_scan_agrupa_fallos_en_exception_group(_patch_client):
     with pytest.raises(ExceptionGroup) as excinfo:
         _run(core.scan_all_providers(["AWS", "Azure"], timeout=2.0))
     assert len(excinfo.value.exceptions) == 1
+
+
+def test_scan_conserva_fallos_de_todos_los_proveedores(_patch_client):
+    _patch_client(lambda request: httpx.Response(504, request=request))
+
+    with pytest.raises(ExceptionGroup) as excinfo:
+        _run(core.scan_all_providers(["AWS", "Azure", "GCP"], timeout=2.0))
+
+    assert len(excinfo.value.exceptions) == 3
+    assert all(isinstance(error, CorruptedPayloadError) for error in excinfo.value.exceptions)
