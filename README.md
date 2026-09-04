@@ -195,9 +195,4 @@ explica cada concepto del TP con un personaje del reino.
 
 **👉 Abrir la historia:** <https://john-alexanderr.github.io/-Sistema-de-Telemetr-a-Multicloud-y-Observabilidad-As-ncrona-Proyecto-Trit-n-/docs/>
 
-El sitio es estático y vive en la carpeta [`docs/`](docs/) con sus ilustraciones en
-[`docs/assets/`](docs/assets/). GitHub Pages lo publica automáticamente desde la rama `main`
-en cada push, gracias a que el repositorio tiene habilitado *Settings → Pages → Deploy from a branch*
-(rama `main`, carpeta raíz): Jekyll expone el cuento en la subruta `/docs/`.
 
-> **Vista previa local:** `python3 -m http.server -d docs 8000` y abrir <http://localhost:8000>.
