@@ -132,7 +132,7 @@ Los tests son offline (no necesitan internet), salvo el de la CLI que valida el 
 
 | Archivo | Qué valida |
 |---|---|
-| `tests/test_sanitizer.py` | Rango de timeout [0.1, 5.0] y regex flexible de cluster en la frontera CLI |
+| `tests/test_sanitizer.py` | Rango de timeout [0.1, 5.0] y regex estricta de cluster (patrón exacto de la cátedra) |
 | `tests/test_exceptions.py` | Herencia desde `Exception` (nunca `BaseException`) y `add_note` |
 | `tests/test_formatter.py` | Serialización recursiva del `ExceptionGroup`, notas, causa y metadatos ISO 8601 UTC |
 | `tests/test_core_offline.py` | Mapeo de errores de `httpx` y preservacion de fallos concurrentes con `MockTransport` |
@@ -161,9 +161,9 @@ ruff check src tests scripts
 | Rol | Integrante | Módulo que defiende |
 |---|---|---|
 | Ingeniero de Robustez de Entradas y Excepciones | JUAN RASTELLINI | `exceptions.py`, `sanitizer.py` |
-| Ingeniero de Concurrencia y Telemetría Asíncrona | JUAN RASTELLINI| `core.py` |
-| Ingeniero de Formateo Estructurado JSON | RODRIGO TARQUE | `AsyncJSONFormatter` |
-| Ingeniero de Almacenamiento y Desacoplamiento No Bloqueante |JUAN RASTELLINI | Pipeline `QueueHandler`/`QueueListener` |
+| Ingeniero de Concurrencia y Telemetría Asíncrona | JUAN RASTELLINI | `core.py` |
+| Ingeniero de Formateo Estructurado JSON | JUAN RASTELLINI | `AsyncJSONFormatter` |
+| Ingeniero de Almacenamiento y Desacoplamiento No Bloqueante | JUAN RASTELLINI | Pipeline `QueueHandler`/`QueueListener` |
 | Coordinador de Integración y Flujo CLI | JUAN RASTELLINI | `app_operator.py`, empaquetado |
 | Ingeniero de Simulación de Caos y Pruebas Forenses | JUAN RASTELLINI | `scripts/chaos_suite.py`, `scripts/forensic_validator.py` |
 
