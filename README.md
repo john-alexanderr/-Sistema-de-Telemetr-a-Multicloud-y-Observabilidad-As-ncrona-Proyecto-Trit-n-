@@ -7,37 +7,99 @@ JSON estructurado, no bloqueante, con rotación de 2 MB y compresión Gzip.
 
 ## Arquitectura general
 
+El flujo atraviesa cuatro fases: **frontera** (validación CLI antes de tocar la red),
+**concurrencia** (un mensajero por proveedor dentro del `TaskGroup`), **captura quirúrgica**
+(`except*` por familia de errores) y **logging no bloqueante** (cola + hilo aparte).
+El diagrama separa los dos caminos de cada mensajero — éxito o fallo — y muestra cómo los
+fallos viajan agrupados hasta la captura sin derribar la aplicación:
+
 ```mermaid
-graph TD
-    A[app_operator.py - CLI Entrypoint] -->|1. Sanitiza con argparse| B[sanitizer.py]
-    A -->|2. Inicia asyncio.run| C[core.py - scan_all_providers]
-    C -->|3. Crea asyncio.TaskGroup| D[httpx.AsyncClient - AWS]
-    C -->|3. Crea asyncio.TaskGroup| E[httpx.AsyncClient - Azure]
-    C -->|3. Crea asyncio.TaskGroup| F[httpx.AsyncClient - GCP]
+flowchart TD
+    U["Usuario (terminal)"] -->|"python src/app_operator.py AWS Azure GCP -c cluster-us-east-01"| A
 
-    D -.->|Falla / Timeout| G[ExceptionGroup]
-    E -.->|Falla / Red| G
-    F -.->|Exito| H[results_list]
+    subgraph F1["Fase 1 · Frontera (argparse + sanitizer.py)"]
+        A["app_operator.py<br/>argparse · choices · -q/-v excluyentes"]
+        S["sanitizer.py (validadores inyectados con type=)<br/>timeout de 0.1 a 5.0 s · regex del patrón"]
+        X(["exit code 2 · sin event loop · sin red"])
+        A -->|"inyecta validadores"| S
+        S -->|"ArgumentTypeError"| X
+    end
 
-    G -->|4. Propaga hacia| A
-    A -->|5. Captura quirurgica except*| I[logging_engine.py - LogRecord]
+    A -->|"orden limpia"| RUN["asyncio.run(async_main)"]
+    RUN --> C["core.py · scan_all_providers"]
 
-    I -->|6. Encola en microsegundos| J[queue.Queue - Thread-safe]
-    J -->|7. Consume desatendido| K[QueueListener - Hilo Secundario]
-    K -->|8. Formatea a JSON recursivo| L[AsyncJSONFormatter]
-    K -->|9. Escribe y rota| M[RotatingFileHandler]
-    M -->|10. Rollover & Gzip| N[triton_services.log.N.gz]
+    subgraph F2["Fase 2 · Concurrencia (asyncio.TaskGroup)"]
+        TG["asyncio.TaskGroup"]
+        T1["Task-AWS · /posts/1"]
+        T2["Task-Azure · /posts/2"]
+        T3["Task-GCP · /posts/3"]
+        CH["Caos: --chaos / TRITON_BASE_URL<br/>httpbin delay/3 · status/504 · xml · host .invalid"]
+        TG --> T1
+        TG --> T2
+        TG --> T3
+        CH -.- T1
+        CH -.- T2
+        CH -.- T3
+    end
+
+    C --> TG
+
+    T1 -->|"éxito"| RES["results_list (dicts)"]
+    T2 -->|"éxito"| RES
+    T3 -->|"éxito"| RES
+
+    T1 -.->|"fallo como valor (_run_provider_safely)"| EG["ExceptionGroup<br/>armado con TODOS los fallos"]
+    T2 -.->|"fallo como valor"| EG
+    T3 -.->|"fallo como valor"| EG
+
+    EG -->|"propaga a async_main"| CAP
+    RES -->|"logger.info (reporte nominal)"| QH
+
+    subgraph F3["Fase 3 · Captura quirúrgica (except*)"]
+        CAP["except* ProviderTimeoutError<br/>except* CorruptedPayloadError<br/>except* NetworkPeeringError<br/>+ notas forenses add_note()"]
+    end
+
+    CAP -->|"logger.error + logger.debug(exc_info=group)"| QH
+
+    subgraph F4["Fase 4 · Logging no bloqueante (hilo aparte)"]
+        QH["TritonQueueHandler · prepare() intacto<br/>(el exc_info sobrevive la cola)"]
+        Q["queue.Queue (thread-safe)"]
+        QL["QueueListener · hilo secundario"]
+        FMT["AsyncJSONFormatter<br/>ISO 8601 UTC · árbol recursivo · NDJSON"]
+        CON["Consola (stdout)"]
+        RF["RotatingFileHandler · 2 MB · 3 backups"]
+        GZ["gzip_namer + gzip_rotator<br/>triton_services.log.N.gz"]
+        QH --> Q
+        Q -->|"consume desatendido"| QL
+        QL --> FMT
+        FMT --> CON
+        FMT --> RF
+        RF -->|"rollover"| GZ
+    end
+
+    F4 --> FIN["finally (PEP 765) · listener.stop()"]
+
+    classDef conc fill:#eaf2ff,stroke:#5b7fd4,color:#1a1a1a
+    classDef exito fill:#e8f4ea,stroke:#1f9d55,color:#1a1a1a
+    classDef fallo fill:#fdecea,stroke:#c0392b,color:#1a1a1a
+    classDef caos fill:#fff6e5,stroke:#e8a53e,stroke-dasharray:5 3,color:#1a1a1a
+    classDef logging fill:#f3eaff,stroke:#6b4fa1,color:#1a1a1a
+    class RUN,C,TG conc
+    class RES exito
+    class X,EG,CAP fallo
+    class CH caos
+    class QH,Q,QL,FMT,CON,RF,GZ logging
 ```
 
 ## Flujo de hilos del pipeline de logging
 
 ```mermaid
 flowchart LR
-    subgraph Hilo principal - event loop asyncio
+    subgraph HP["Hilo principal · event loop de asyncio"]
         L[logger.info / logger.error] --> QH[QueueHandler]
         QH -->|encola al instante| Q[queue.Queue thread-safe]
     end
-    subgraph Hilo secundario - QueueListener
+    subgraph HS["Hilo secundario · QueueListener"]
         Q --> QL[QueueListener]
         QL --> F[AsyncJSONFormatter]
         F --> R[RotatingFileHandler 2 MB / 3 backups]
