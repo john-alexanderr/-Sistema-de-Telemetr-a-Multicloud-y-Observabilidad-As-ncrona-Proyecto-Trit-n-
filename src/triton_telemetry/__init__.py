@@ -1,3 +1,9 @@
+"""Telemetria multicloud del Proyecto Triton.
+
+Validacion de frontera, consulta asincrona con httpx y pipeline de logging
+JSON no bloqueante, todo detras de una API publica explicita (__all__).
+"""
+
 from .core import scan_all_providers
 from .exceptions import (
     CorruptedPayloadError,

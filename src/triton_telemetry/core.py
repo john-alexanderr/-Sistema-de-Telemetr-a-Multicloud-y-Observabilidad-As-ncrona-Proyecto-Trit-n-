@@ -30,6 +30,12 @@ BASE_URL_OVERRIDE = os.environ.get("TRITON_BASE_URL")
 
 
 async def query_provider_telemetry(provider: str, timeout: float, use_chaos: bool = False) -> dict:
+    """Consulta la telemetria de un proveedor y traduce los fallos de httpx.
+
+    Cada error nativo se convierte en su excepcion semantica de Triton con
+    notas forenses adjuntas (add_note) y la causa original preservada
+    (raise ... from), para no perder la evidencia del error real.
+    """
     if BASE_URL_OVERRIDE:
         url = f"{BASE_URL_OVERRIDE}/{provider.lower()}"
     elif use_chaos:
@@ -94,6 +100,11 @@ async def query_provider_telemetry(provider: str, timeout: float, use_chaos: boo
 async def _run_provider_safely(
     provider: str, timeout: float, use_chaos: bool
 ) -> dict | TritonError:
+    """Ejecuta una consulta y devuelve el error como valor en vez de propagarlo.
+
+    Asi el TaskGroup espera a que todos los mensajeros vuelvan: ningun fallo
+    concurrente se pierde por la cancelacion de sus hermanos.
+    """
     try:
         return await query_provider_telemetry(provider, timeout, use_chaos)
     except TritonError as error:
@@ -101,6 +112,11 @@ async def _run_provider_safely(
 
 
 async def scan_all_providers(providers: list[str], timeout: float, use_chaos: bool = False) -> list[dict]:
+    """Lanza las consultas en paralelo dentro de un TaskGroup.
+
+    Si algun mensajero falla, recolecta todos los fallos y los agrupa en un
+    ExceptionGroup para que la CLI pueda capturarlos con except*.
+    """
     tasks = []
 
     async with asyncio.TaskGroup() as tg:

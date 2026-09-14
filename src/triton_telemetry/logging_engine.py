@@ -10,17 +10,27 @@ from datetime import datetime, timezone
 
 
 def gzip_namer(name: str) -> str:
+    """Agrega .gz al nombre del backup durante la rotacion."""
     return name + ".gz"
 
 
 def gzip_rotator(source: str, dest: str):
+    """Comprime el backup recien rotado a .gz y borra el plano original."""
     with open(source, "rb") as f_in, gzip.open(dest, "wb", compresslevel=9) as f_out:
         shutil.copyfileobj(f_in, f_out)
     os.remove(source)
 
 
 class AsyncJSONFormatter(logging.Formatter):
+    """Serializa cada LogRecord como una linea JSON (una linea = un evento).
+
+    Guarda timestamp ISO 8601 UTC, proceso, hilo, tarea de asyncio, los
+    metadatos extra y el arbol completo de excepciones: grupos anidados,
+    causas encadenadas y notas, sin truncar nada.
+    """
+
     def _serialize_exception(self, exc: BaseException) -> dict:
+        """Traduce una excepcion a dict, entrando en grupos y causas recursivamente."""
         exc_data = {
             "class": exc.__class__.__name__,
             "message": str(exc),
@@ -37,6 +47,7 @@ class AsyncJSONFormatter(logging.Formatter):
         return exc_data
 
     def format(self, record: logging.LogRecord) -> str:
+        """Arma el expediente JSON del evento; corre en el hilo del listener."""
         dt_utc = datetime.fromtimestamp(record.created, tz=timezone.utc)
 
         log_payload = {
@@ -71,11 +82,26 @@ class AsyncJSONFormatter(logging.Formatter):
 
 
 class TritonQueueHandler(logging.handlers.QueueHandler):
+    """QueueHandler que encola el registro sin re-formatearlo.
+
+    El prepare por defecto destruye record.exc_info, y sin exc_info el arbol
+    de excepciones no sobrevive el viaje por la cola. Aca el registro pasa
+    intacto y el formateo real lo hace el listener del otro lado.
+    """
+
     def prepare(self, record):
+        """Devuelve el registro tal como llego."""
         return record
 
 
 def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.Logger:
+    """Arma el pipeline con dictConfig y lo desacopla con una cola.
+
+    El logger solo encola via QueueHandler (microsegundos, el event loop
+    nunca se bloquea) y un QueueListener en un hilo aparte hace la E/S real:
+    consola mas el archivo rotativo de 2 MB con backups comprimidos a gzip.
+    El listener queda colgado en logger.listener para apagarlo en el finally.
+    """
     logging_schema = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -137,6 +163,12 @@ def setup_triton_logging(log_filename: str = "triton_services.log") -> logging.L
 
 
 def set_console_level(logger: logging.Logger, level: int) -> None:
+    """Cambia en caliente el nivel del handler de consola.
+
+    Ojo que el handler vive dentro del listener, no en el logger (que solo
+    tiene el QueueHandler); funciona porque el listener se creo con
+    respect_handler_level=True.
+    """
     listener = getattr(logger, "listener", None)
     if listener is None:
         return

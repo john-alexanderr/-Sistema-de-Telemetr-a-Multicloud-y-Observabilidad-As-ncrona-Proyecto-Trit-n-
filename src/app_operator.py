@@ -24,6 +24,11 @@ logger = setup_triton_logging()
 
 
 def build_cli_parser() -> argparse.ArgumentParser:
+    """Define la CLI completa: proveedores, cluster, timeout, caos, modo y salida.
+
+    Los validadores propios se inyectan con type= para que cualquier dato
+    corrupto muera en la frontera, antes de arrancar asyncio o abrir la red.
+    """
     parser = argparse.ArgumentParser(
         prog="TritonMonitor",
         description="Consola de Telemetria Multicloud y Observabilidad Asincrona (PROYECTO TRITON).",
@@ -75,6 +80,7 @@ def build_cli_parser() -> argparse.ArgumentParser:
 
 
 def configure_console_output(args: argparse.Namespace) -> None:
+    """Decide el nivel de la consola segun -q, -v o el modo operativo."""
     if args.quiet:
         level = logging.ERROR
     elif args.verbose or args.mode == "debug":
@@ -87,6 +93,13 @@ def configure_console_output(args: argparse.Namespace) -> None:
 
 
 async def async_main():
+    """Punto de entrada: sanitiza, escanea en paralelo y captura con except*.
+
+    Cada bloque except* atiende una sola familia de errores y ademas registra
+    el volcado del grupo con exc_info para que el JSON quede con el arbol
+    completo. El finally solo libera recursos (PEP 765): nunca return, break
+    ni continue ahi, silencian excepciones activas.
+    """
     parser = build_cli_parser()
     args = parser.parse_args()
     configure_console_output(args)
