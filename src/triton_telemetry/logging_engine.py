@@ -46,7 +46,7 @@ class AsyncJSONFormatter(logging.Formatter):
             "message": record.getMessage(),
             "process": record.process,
             "thread_name": record.threadName,
-            "async_task": getattr(record, "taskName", "None"),
+            "async_task": getattr(record, "taskName", None),
             "filename": record.filename,
             "line": record.lineno,
         }

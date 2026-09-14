@@ -4,6 +4,8 @@ import logging
 import sys
 from pathlib import Path
 
+# Con python -I (modo aislado) el interprete no agrega el directorio del
+# script a sys.path: sin este insert el import del paquete fallaria ahi.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from triton_telemetry import (
