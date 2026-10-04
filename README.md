@@ -224,9 +224,9 @@ ruff check src tests scripts
 |---|---|---|
 | Ingeniero de Robustez de Entradas y Excepciones | JUAN RASTELLINI | `exceptions.py`, `sanitizer.py` |
 | Ingeniero de Concurrencia y Telemetría Asíncrona | JUAN RASTELLINI | `core.py` |
-| Ingeniero de Formateo Estructurado JSON | JUAN RASTELLINI | `AsyncJSONFormatter` |
+| Ingeniero de Formateo Estructurado JSON | Rodrigo Tarqui Gutierrez | `AsyncJSONFormatter` |
 | Ingeniero de Almacenamiento y Desacoplamiento No Bloqueante | JUAN RASTELLINI | Pipeline `QueueHandler`/`QueueListener` |
-| Coordinador de Integración y Flujo CLI | JUAN RASTELLINI | `app_operator.py`, empaquetado |
+| Coordinador de Integración y Flujo CLI | Rodrigo Tarqui Gutierrez | `app_operator.py`, empaquetado |
 | Ingeniero de Simulación de Caos y Pruebas Forenses | JUAN RASTELLINI | `scripts/chaos_suite.py`, `scripts/forensic_validator.py` |
 
 ## Hardening (hard gates)
